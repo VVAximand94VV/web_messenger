@@ -1,0 +1,92 @@
+{
+    "mainView":{
+        "mainChatMessage": "Выберите чат, чтобы начать общение."
+    },
+
+    "chatView":{
+        "typing":"Печатает",
+        "writeMessaage":"Введите сообщение..."
+    },
+
+    "signin":{
+        "title":"Войти в аккаунт",
+        "email":"Email",
+        "password":"Пароль",
+        "signupStr":"чтобы создать новый аккаунт.",
+        "signupA":"Зарегистрируйтесь",
+        "forgotPassStr":"Забыли пароль?",
+        "forgotPassA":"Вспомнить"
+    },
+
+    "signup":{
+        "title":"Регистрация",
+        "login":"Логин",
+        "firstName":"Имя",
+        "lastName":"Фамилия",
+        "email":"Email",
+        "phone":"Телефон",
+        "password":"Пароль",
+        "confirmPassword":"Подтверждение пароля",
+        "signinA":"Войдите",
+        "signinStr":"в ваш аккаунт."
+    },
+
+    "forgotPassword":{
+        "title":"Вспомнить пароль",
+        "text":"Please enter the email address for your account. A verification code will be sent to you. Once you have received the verification code, you will be able to choose a new password for your account.",
+        "signupStr":"чтобы создать новый аккаунт.",
+        "email":"Ваш email"
+    },
+
+    "resetPassword":{
+        "title":"Сбросить пароль",
+        "code":"Код",
+        "email":"Email",
+        "password":"Пароль",
+        "confirmPassword":"Подтверждение пароля"
+    },
+
+    "emailNotifyView":{
+        "title":"Подтверждение электронного адресаю",
+        "back":"Вернуться на сайт."
+    },
+
+    "sidebar":{
+        "contacts":"Контакты",
+        "settings":"Настройки",
+        "nightMode":"Ночной режим",
+        "logout":"Выйти"
+    },
+
+    "settingsModal":{
+        "settings":"Настройки",
+        "close":"Закрыть",
+        "editAvatar":"Сменить аватар"
+    },
+
+    "dropdownMenu":{
+        "editProfile":"Редактировать профиль",
+        "chatPreference":"Настройки чата",
+        "language":"Язык",
+
+        "profile":{
+            "login":"Логин",
+            "firstName":"Имя",
+            "lastName":"Фамилия",
+            "email":"Email",
+            "phone":"Телефон"
+        },
+
+        "chat":{
+            
+        },
+
+        "lang":{
+            
+        }
+    },
+
+    "chatList":{
+        "search":"Поиск"
+    }
+}

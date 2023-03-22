@@ -1,0 +1,92 @@
+{
+    "mainView":{
+        "mainChatMessage": "Select a chat to start messaging."
+    },
+
+    "chatView":{
+        "typing":"Typing",
+        "writeMessage":"Write message..."
+    },
+
+    "signin":{
+        "title":"Sign In",
+        "email":"Email",
+        "password":"Password",
+        "signupStr":"for create new account.",
+        "signupA":"Sign Up",
+        "forgotPassStr":"Forgot password?",
+        "forgotPassA":"Forgot"
+    },
+
+    "signup":{
+        "title":"Sign Up",
+        "login":"Login",
+        "firstName":"First name",
+        "lastName":"Last name",
+        "email":"Email",
+        "phone":"Phone",
+        "password":"Password",
+        "confirmPassword":"Confirm password",
+        "signinA":"Sign In",
+        "signinStr":"for your account."
+    },
+
+    "forgotPassword":{
+        "title":"Forgot password",
+        "text":"Please enter the email address for your account. A verification code will be sent to you. Once you have received the verification code, you will be able to choose a new password for your account.",
+        "signupStr":"for create new account.",
+        "email":"Your email"
+    },
+
+    "resetPassword":{
+        "title":"Reset password",
+        "code":"Code",
+        "email":"Email",
+        "password":"Password",
+        "confirmPassword":"Confirm password"
+    },
+
+    "emailNotifyView":{
+        "title":"Email notification",
+        "back":"Back to site."
+    },
+
+    "sidebar":{
+        "contacts":"Contacts",
+        "settings":"Settings",
+        "nightMode":"Night mode",
+        "logout":"Logout"
+    },
+
+    "settingsModal":{
+        "settings":"Settings",
+        "close":"Close",
+        "editAvatar":"Edit avatar"
+    },
+
+    "dropdownMenu":{
+        "editProfile":"Edit profile",
+        "chatPreference":"Chat preference",
+        "language":"Language",
+
+        "profile":{
+            "login":"Login",
+            "firstName":"First name",
+            "lastName":"Last name",
+            "email":"Email",
+            "phone":"Phone"
+        },
+
+        "chat":{
+            
+        },
+
+        "lang":{
+            
+        }
+    },
+
+    "chatList":{
+        "search":"Search"
+    }
+}
