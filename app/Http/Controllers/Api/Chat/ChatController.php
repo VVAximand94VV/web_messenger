@@ -20,6 +20,8 @@ class ChatController extends Controller
             $b->where('userId',$user->id);
         })->get();
 
+        //$chats['contactIinfo'] = $user->id != $;
+
         return response()->json([
             'chats' => ChatResource::collection($chats),
         ]);
@@ -70,6 +72,10 @@ class ChatController extends Controller
             'messages' => MessageResource::collection($chat->messages),
             'contacts' => $contacts,
         ]);
+    }
+
+    public function remove(){
+        return response()->json(['message' => 'Chat removed.']);
     }
 
 }

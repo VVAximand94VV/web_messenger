@@ -44,7 +44,7 @@
                                                                 v-if="chats" v-for="chat in chats"
                                                                 @click="this.$store.dispatch('changeChatlist')" 
                                                                 :to="{ name:'chat.single', params:{id:chat.id} }" class="d-flex justify-content-between">
-                                                                <div class="d-flex flex-row">
+                                                                <div class="d-flex flex-row chat">
                                                                 <div>
                                                                     <img
                                                                         src="../../assets/image/avatar/ava6-bg.webp"
@@ -52,7 +52,9 @@
                                                                     <span class="badge bg-success badge-dot"></span>
                                                                 </div>
                                                                 <div class="pt-1">
-                                                                    <p class="fw-bold mb-0">{{ chat.login }}</p>
+                                                                    <p v-for="contact in chat.users" class="fw-bold mb-0">
+                                                                        {{ contact.id !== userId ? contact.login:'' }}
+                                                                    </p>
                                                                     <p class="small text-muted">Lorem ipsum dolor sit.</p>
                                                                 </div>                    
                                                                     </div>
@@ -251,6 +253,7 @@ export default {
 
     data(){
       return{
+        userId:JSON.parse(localStorage.getItem('user_info')).id,
         chats:[],
       }
     },
@@ -264,30 +267,28 @@ export default {
                     }
                 })
                 .then(res => {
-                    console.log('chat info:', res)
+                    //console.log('chat info:', res)
                     this.chats = res.data.chats;
                 })
                 .catch(error => {
                     console.log(error)
                 })
         },
-        
+    },
 
-        // async getChats(){
-        //     let id = 1;
-        //     await axios.get(`/`, {}, {
-        //         headers:{
-        //             Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
-        //         }
-        //     })
-        //         .then(res => {
-        //             console.log(res);
-        //         })
-        //         .catch(error => {
-        //             console.log(error);
-        //         })
-        // }
-    }
+    computed:{
+        contactLogin(contacts){
+            let userId = JSON.parse(localStorage.getItem('user_info')).id;
+            
+            contacts.forEach(e => {
+
+            })
+
+            let result = contacts.find(elem => elem.id != userId);
+
+            return result;
+        },
+    },
 }
 </script>
 

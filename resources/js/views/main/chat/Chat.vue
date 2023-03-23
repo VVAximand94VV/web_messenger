@@ -89,12 +89,17 @@ export default {
     //         })
     // },
 
+    mounted(){
+        console.log('chat:...',this.chatInfo)
+    },
+
     watch:{
         '$route.params.id': {
             immediate: true,
             handler(){
                 this.getMessages(this.$route.params.id);
-                //console.log('change chat!')
+                this.getChat(this.$route.params.id);
+                console.log('change chat!')
             },
         }
     },
@@ -119,12 +124,12 @@ export default {
                     }
             })
                 .then(res => {
-                    console.log('chat-info: ',res.data.chat)
+                    //console.log('chat-info: ',res.data.chat)
                     this.chatInfo = res.data.chat;
                     this.contactInfo = res.data.contacts;
                     this.messages = res.data.messages;
-                    console.log('Chat messages: ', this.messages)
-                    console.log('Contacts Info: ', this.contactInfo)
+                    console.log('Messages..: ', this.messages)
+                    console.log('contactsInfo..:', this.contactInfo)
 
                 })
                 .catch(error =>{
@@ -134,29 +139,45 @@ export default {
 
         sendMessage(){
             console.log(this.message)
-            this.message = '';
-            // const data = new FormData();
-            // data.append('message', this.message);
-            // data.append('from', JSON.parse(localStorage.getItem('user_info')).id);
-            // data.append('to', 2);
+            //this.message = '';
+            const data = new FormData();
+            data.append('message', this.message);
+            data.append('from', Number(JSON.parse(localStorage.getItem('user_info')).id));
+            data.append('to', Number(this.contactInfo.id));
 
-            // axios.post(`/api/client/chat/send/`, data, {
-            //     headers:{
-            //         Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
-            //     }
-            // })
-            //     .then(res => {
-            //         console.log(res)
-            //         this.message = '';
-            //     })
-            //     .catch(error => {
-            //         console.log(error);
-            //     })
+            axios.post(`/api/client/message/${this.chatInfo.id}/store/`, data, {
+                headers:{
+                    Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
+                }
+            })
+                .then(res => {
+                    //this.$emit('new', res.data)
+                    console.log(res)
+                    this.message = '';
+                    this.getMessages(this.chatInfo.id);
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.message = '';
+                })
         },
 
-        seveMessage(){
-
+        async getChat(chatId){
+            let id = JSON.parse(localStorage.getItem('user_info')).id;
+            await axios.get(`/api/client/chat/${id}/${chatId}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
+                    }
+                })
+                .then(res => {
+                    console.log('chat info...:', res)
+                    //this.chatInfo = res.data
+                })
+                .catch(error => {
+                    console.log(error)
+                })
         },
+
     }
 }
 </script>

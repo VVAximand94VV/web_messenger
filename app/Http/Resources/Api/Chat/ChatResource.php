@@ -20,6 +20,7 @@ class ChatResource extends JsonResource
             'type' => $this->type,
             //'messages' => new MessageResource($this->messages),
             'users' => $this->users,
+            //'contactInfo' => $this->contactInfo,
         ];
     }
 }

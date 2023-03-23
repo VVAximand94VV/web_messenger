@@ -32,7 +32,7 @@ Route::group(['prefix' => 'client'], function(){
 
         Route::group(['prefix' => 'chat/{user}'], function () {
             Route::get('/', [\App\Http\Controllers\Api\Chat\ChatController::class, 'index']);
-            Route::get('/{chat}/', [\App\Http\Controllers\Api\Chat\ChatController::class, 'show']);
+            Route::get('/{chat}', [\App\Http\Controllers\Api\Chat\ChatController::class, 'show']);
             Route::post('/store', [\App\Http\Controllers\Api\Chat\ChatController::class, 'store']);
         });
 
@@ -41,7 +41,7 @@ Route::group(['prefix' => 'client'], function(){
         });
 
         Route::group(['prefix' => 'message'], function () {
-            Route::post('/store', [\App\Http\Controllers\Api\Message\MessageController::class, 'store']);
+            Route::post('{chat}/store', [\App\Http\Controllers\Api\Message\MessageController::class, 'store']);
         });
 
     });
