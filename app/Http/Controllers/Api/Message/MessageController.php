@@ -2,19 +2,19 @@
 namespace App\Http\Controllers\Api\Message;
 
 
+use App\Events\NewMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Message\MessageRequest;
 use App\Models\Chat;
 use App\Models\User;
 use App\Models\Message;
-use App\Events\SendMessage;
 
 class MessageController extends Controller
 {
 
     public function store(Chat $chat, MessageRequest $request){
         $data = $request->validated();
-        //dd($data, $chat);   
+        //dd($data, $chat);
         $data['chatId'] = $chat->id;
 
         //dd($data);
@@ -36,6 +36,10 @@ class MessageController extends Controller
         //dd($result);
 
         $message = Message::create($data);
+
+        //$res = broadcast(new NewMessage($message));
+        broadcast(new NewMessage($message))->toOthers();
+        //dd($res);
 
         return response()->json([
             'message' => 'Message sended!',

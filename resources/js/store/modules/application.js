@@ -29,6 +29,12 @@ export  default {
         // locale
         //this.locale = lang
         localStorage.setItem('lang-locale', lang)
+      },
+
+      scrollToBottom({dispatch}){
+        setTimeout(() => {
+            this.$refs.feed.scrollTop = this.$refs.feed.scrollHeight
+        })
       }
     },
 }

@@ -37,12 +37,12 @@
 
 
                 <!-- <Messages :chatId="this.$route.params.id" /> -->
-                <div class="modal-body" style="overflow-x: hidden;">
+                <div class="modal-body" ref="feed" style="overflow-x: hidden;">
                     <div class="msg-body">
                         <div class="pt-3 mt-3 pe-3 px-1 container-fluid h-100 mx-1" style="position: absolute;">
 
 
-                            <Message v-if="messages" v-for="mess in messages"
+                            <Message ref="message" v-if="messages" v-for="mess in messages"
                                 :to="mess.to"
                                 :contactId="contactInfo.id"
                                 :text="mess.message"
@@ -82,15 +82,13 @@ export default {
     name: "Chat",
     components: {Message},
 
-    // setup(){
-    //     Echo.private('chat')
-    //         .listen('MessageSend', (e) => {
-
-    //         })
-    // },
-
     mounted(){
-        console.log('chat:...',this.chatInfo)
+        Echo.private(`messages`)
+            .listen('NewMessage', (e) => {
+                //alert('New message!');
+                console.log(e);
+                this.getMessages(this.$route.params.id);
+            });
     },
 
     watch:{
@@ -98,10 +96,13 @@ export default {
             immediate: true,
             handler(){
                 this.getMessages(this.$route.params.id);
-                this.getChat(this.$route.params.id);
                 console.log('change chat!')
             },
-        }
+        },
+
+        messages(messages){
+            this.scrollToBottom();
+        },
     },
 
 
@@ -124,12 +125,12 @@ export default {
                     }
             })
                 .then(res => {
-                    //console.log('chat-info: ',res.data.chat)
+                    console.log('chat-info: ',res.data.chat)
                     this.chatInfo = res.data.chat;
                     this.contactInfo = res.data.contacts;
                     this.messages = res.data.messages;
-                    console.log('Messages..: ', this.messages)
-                    console.log('contactsInfo..:', this.contactInfo)
+                    //console.log(this.messages)
+                    //console.log('contactsInfo:', this.contactInfo)
 
                 })
                 .catch(error =>{
@@ -138,8 +139,6 @@ export default {
         },
 
         sendMessage(){
-            console.log(this.message)
-            //this.message = '';
             const data = new FormData();
             data.append('message', this.message);
             data.append('from', Number(JSON.parse(localStorage.getItem('user_info')).id));
@@ -151,8 +150,6 @@ export default {
                 }
             })
                 .then(res => {
-                    //this.$emit('new', res.data)
-                    console.log(res)
                     this.message = '';
                     this.getMessages(this.chatInfo.id);
                 })
@@ -162,21 +159,12 @@ export default {
                 })
         },
 
-        async getChat(chatId){
-            let id = JSON.parse(localStorage.getItem('user_info')).id;
-            await axios.get(`/api/client/chat/${id}/${chatId}`, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
-                    }
-                })
-                .then(res => {
-                    console.log('chat info...:', res)
-                    //this.chatInfo = res.data
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-        },
+        scrollToBottom(){
+            setTimeout(() => {
+                this.$refs.feed.scrollTop = this.$refs.feed.scrollHeight
+            })
+
+        }
 
     }
 }

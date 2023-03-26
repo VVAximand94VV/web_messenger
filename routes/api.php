@@ -37,7 +37,7 @@ Route::group(['prefix' => 'client'], function(){
         });
 
         Route::group(['prefix' => 'contacts/{user}'], function () {
-            Route::get('/', [\App\Http\Controllers\Api\Contact\ContactController::class, 'index']);    
+            Route::get('/', [\App\Http\Controllers\Api\Contact\ContactController::class, 'index']);
         });
 
         Route::group(['prefix' => 'message'], function () {

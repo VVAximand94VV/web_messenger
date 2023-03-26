@@ -8,7 +8,7 @@
                     {{ text }}
                 </p>
             <p class="small ms-3 mb-3 rounded-3 text-muted float-end">{{ createdAt }}</p>
-        </div>
+        </div>                            
     </div>
 
 </template>
