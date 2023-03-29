@@ -39,10 +39,10 @@
                                                     <!-- chat-list -->
                                                     <div class="chat-list">
                                                         <!-- Chat list / conatcs -->
-                                                        
-                                                            <router-link 
+
+                                                            <router-link
                                                                 v-if="chats" v-for="chat in chats"
-                                                                @click="this.$store.dispatch('changeChatlist')" 
+                                                                @click="this.$store.dispatch('changeChatlist')"
                                                                 :to="{ name:'chat.single', params:{id:chat.id} }" class="d-flex justify-content-between">
                                                                 <div class="d-flex flex-row chat">
                                                                 <div>
@@ -56,154 +56,16 @@
                                                                         {{ contact.id !== userId ? contact.login:'' }}
                                                                     </p>
                                                                     <p class="small text-muted">Lorem ipsum dolor sit.</p>
-                                                                </div>                    
+                                                                </div>
                                                                     </div>
                                                                 <div class="pt-1">
-                                                                    <p class="small text-muted mb-1">Yesterday</p>
-                                                                </div>                
+                                                                    <p class="small text-danger mb-1">{{ isNotReadMessage(chat.messages)??'' }}</p>
+                                                                </div>
                                                             </router-link>
-                                                    
-        
+
+
                                                         <!-- -->
 
-                                                        <!-- <router-link @click.prevent="this.$store.dispatch('changeChatlist')" :to="{ name:'chat.single', params:{id:1} }"  class="d-flex mt-2 justify-content-between">
-                                                            <div class="d-flex flex-row">
-                                                                <div>
-                                                                    <img
-                                                                        src="../../assets/image/avatar/ava5-bg.webp"
-                                                                        alt="avatar" class="d-flex align-self-center me-3" width="55">
-                                                                    <span class="badge bg-warning badge-dot"></span>
-                                                                </div>
-                                                                <div class="pt-1">
-                                                                    <p class="fw-bold mb-0">Kate Moss</p>
-                                                                    <p class="small text-muted">Lorem ipsum dolor sit.</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="pt-1">
-                                                                <p class="small text-muted mb-1">Yesterday</p>
-                                                            </div>
-                                                        </router-link>
-                                                        <router-link @click.prevent="this.$store.dispatch('changeChatlist')" :to="{ name:'chat.single', params:{id:1} }"  class="d-flex justify-content-between">
-                                                            <div class="d-flex flex-row">
-                                                                <div>
-                                                                    <img
-                                                                        src="../../assets/image/avatar/ava5-bg.webp"
-                                                                        alt="avatar" class="d-flex align-self-center me-3" width="55">
-                                                                    <span class="badge bg-warning badge-dot"></span>
-                                                                </div>
-                                                                <div class="pt-1">
-                                                                    <p class="fw-bold mb-0">Kate Moss</p>
-                                                                    <p class="small text-muted">Lorem ipsum dolor sit.</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="pt-1">
-                                                                <p class="small text-muted mb-1">Yesterday</p>
-                                                            </div>
-                                                        </router-link>
-                                                        <router-link @click.prevent="this.$store.dispatch('changeChatlist')" :to="{ name:'chat.single', params:{id:1} }"  class="d-flex justify-content-between">
-                                                            <div class="d-flex flex-row">
-                                                                <div>
-                                                                    <img
-                                                                        src="../../assets/image/avatar/ava5-bg.webp"
-                                                                        alt="avatar" class="d-flex align-self-center me-3" width="55">
-                                                                    <span class="badge bg-warning badge-dot"></span>
-                                                                </div>
-                                                                <div class="pt-1">
-                                                                    <p class="fw-bold mb-0">Kate Moss</p>
-                                                                    <p class="small text-muted">Lorem ipsum dolor sit.</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="pt-1">
-                                                                <p class="small text-muted mb-1">Yesterday</p>
-                                                            </div>
-                                                        </router-link>
-                                                        <router-link @click.prevent="this.$store.dispatch('changeChatlist')" :to="{ name:'chat.single', params:{id:1} }" class="d-flex justify-content-between">
-                                                                            <div class="d-flex flex-row">
-                                                                                <div>
-                                                                                    <img
-                                                                                        src="../../assets/image/avatar/ava1-bg.webp"
-                                                                                        alt="avatar" class="d-flex align-self-center me-3" width="55">
-                                                                                    <span class="badge bg-success badge-dot"></span>
-                                                                                </div>
-                                                                                <div class="pt-1">
-                                                                                    <p class="fw-bold mb-0">Marie Horwitz</p>
-                                                                                    <p class="small text-muted">Hello, Are you there?</p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="pt-1">
-                                                                                <p class="small text-muted mb-1">Just now</p>
-                                                                                <span class="badge bg-danger rounded-pill float-end">3</span>
-                                                                            </div>
-                                                        </router-link>
-                                                        <router-link @click.prevent="this.$store.dispatch('changeChatlist')" :to="{ name:'chat.single', params:{id:1} }" class="d-flex justify-content-between">
-                                                                            <div class="d-flex flex-row">
-                                                                                <div>
-                                                                                    <img
-                                                                                        src="../../assets/image/avatar/ava2-bg.webp"
-                                                                                        alt="avatar" class="d-flex align-self-center me-3" width="55">
-                                                                                    <span class="badge bg-warning badge-dot"></span>
-                                                                                </div>
-                                                                                <div class="pt-1">
-                                                                                    <p class="fw-bold mb-0">Alexa Chung</p>
-                                                                                    <p class="small text-muted">Lorem ipsum dolor sit.</p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="pt-1">
-                                                                                <p class="small text-muted mb-1">5 mins ago</p>
-                                                                                <span class="badge bg-danger rounded-pill float-end">2</span>
-                                                                            </div>
-                                                        </router-link>
-                                                        <router-link @click.prevent="this.$store.dispatch('changeChatlist')" :to="{ name:'chat.single', params:{id:1} }" class="d-flex justify-content-between">
-                                                                            <div class="d-flex flex-row">
-                                                                                <div>
-                                                                                    <img
-                                                                                        src="../../assets/image/avatar/ava3-bg.webp"
-                                                                                        alt="avatar" class="d-flex align-self-center me-3" width="55">
-                                                                                    <span class="badge bg-success badge-dot"></span>
-                                                                                </div>
-                                                                                <div class="pt-1">
-                                                                                    <p class="fw-bold mb-0">Danny McChain</p>
-                                                                                    <p class="small text-muted">Lorem ipsum dolor sit.</p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="pt-1">
-                                                                                <p class="small text-muted mb-1">Yesterday</p>
-                                                                            </div>
-                                                        </router-link>
-                                                        <router-link @click.prevent="this.$store.dispatch('changeChatlist')" :to="{ name:'chat.single', params:{id:1} }" class="d-flex justify-content-between">
-                                                                            <div class="d-flex flex-row">
-                                                                                <div>
-                                                                                    <img
-                                                                                        src="../../assets/image/avatar/ava4-bg.webp"
-                                                                                        alt="avatar" class="d-flex align-self-center me-3" width="55">
-                                                                                    <span class="badge bg-danger badge-dot"></span>
-                                                                                </div>
-                                                                                <div class="pt-1">
-                                                                                    <p class="fw-bold mb-0">Ashley Olsen</p>
-                                                                                    <p class="small text-muted">Lorem ipsum dolor sit.</p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="pt-1">
-                                                                                <p class="small text-muted mb-1">Yesterday</p>
-                                                                            </div>
-                                                        </router-link>
-                                                        <router-link @click.prevent="this.$store.dispatch('changeChatlist')" :to="{ name:'chat.single', params:{id:1} }" class="d-flex justify-content-between">
-                                                                            <div class="d-flex flex-row">
-                                                                                <div>
-                                                                                    <img
-                                                                                        src="../../assets/image/avatar/ava6-bg.webp"
-                                                                                        alt="avatar" class="d-flex align-self-center me-3" width="55">
-                                                                                    <span class="badge bg-success badge-dot"></span>
-                                                                                </div>
-                                                                                <div class="pt-1">
-                                                                                    <p class="fw-bold mb-0">Ben Smith</p>
-                                                                                    <p class="small text-muted">Lorem ipsum dolor sit.</p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="pt-1">
-                                                                                <p class="small text-muted mb-1">Yesterday</p>
-                                                                            </div>
-                                                        </router-link> -->
                                                     </div>
                                                     <!-- chat-list -->
 
@@ -221,7 +83,7 @@
                         <!-- chatlist -->
 
                         <!-- chatbox -->
-                        
+
                         <router-view id="chatbox"></router-view>
 
                     </div>
@@ -267,27 +129,43 @@ export default {
                     }
                 })
                 .then(res => {
-                    //console.log('chat info:', res)
+                    console.log('Chat info...:', res)
                     this.chats = res.data.chats;
                 })
                 .catch(error => {
                     console.log(error)
                 })
         },
+
+        isNotReadMessage(messages){
+            let res = Object.values(messages).filter(elem => {
+                return elem.isRead == 0
+            }).length;
+
+            console.log('not read message: ',res);
+            return res;
+        },
     },
 
     computed:{
-        contactLogin(contacts){
-            let userId = JSON.parse(localStorage.getItem('user_info')).id;
-            
-            contacts.forEach(e => {
+        // contactLogin(contacts){
+        //     let userId = JSON.parse(localStorage.getItem('user_info')).id;
 
-            })
+        //     contacts.forEach(e => {
 
-            let result = contacts.find(elem => elem.id != userId);
+        //     })
 
-            return result;
+        //     let result = contacts.find(elem => elem.id != userId);
+
+        //     return result;
+        // },
+
+        // sorted contacts for last message
+        sortedContactsByLastMessage(){
+
         },
+
+
     },
 }
 </script>

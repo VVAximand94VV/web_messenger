@@ -14,13 +14,10 @@ class MessageController extends Controller
 
     public function store(Chat $chat, MessageRequest $request){
         $data = $request->validated();
-        //dd($data, $chat);
-        $data['chatId'] = $chat->id;
 
-        //dd($data);
+        $data['chatId'] = $chat->id;
         $users = [(int)$data['from'], (int)$data['to']];
 
-        //dd($chat->users);
         $result = $chat->whereHas('users', function($q) use($users){
             $q->where('userId', $users[0]);
         })->whereHas('users', function($q) use($users){
@@ -33,17 +30,28 @@ class MessageController extends Controller
             ], 401);
         }
 
-        //dd($result);
-
         $message = Message::create($data);
-
-        //$res = broadcast(new NewMessage($message));
         broadcast(new NewMessage($message))->toOthers();
-        //dd($res);
 
         return response()->json([
             'message' => 'Message sended!',
         ]);
+    }
+
+    public function readMessages(Chat $chat){
+        //dd("It's work!");
+
+        $unreadMessage = Message::where('isRead', '=', 0)->where('chatId', '=', $chat->id)->get();
+
+        if($unreadMessage->count() > 0){
+            foreach($unreadMessage as $message){
+                $message->isRead = 1;
+                $message->save();
+            }
+        }
+
+        return response()->json(['message' => 'All message read.']);
+
     }
 
 }

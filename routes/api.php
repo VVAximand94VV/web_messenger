@@ -40,8 +40,9 @@ Route::group(['prefix' => 'client'], function(){
             Route::get('/', [\App\Http\Controllers\Api\Contact\ContactController::class, 'index']);
         });
 
-        Route::group(['prefix' => 'message'], function () {
-            Route::post('{chat}/store', [\App\Http\Controllers\Api\Message\MessageController::class, 'store']);
+        Route::group(['prefix' => 'message/{chat}'], function () {
+            Route::post('/store', [\App\Http\Controllers\Api\Message\MessageController::class, 'store']);
+            Route::post('/read', [\App\Http\Controllers\Api\Message\MessageController::class, 'readMessages']);
         });
 
     });

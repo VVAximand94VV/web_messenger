@@ -42,13 +42,15 @@
                         <div class="pt-3 mt-3 pe-3 px-1 container-fluid h-100 mx-1" style="position: absolute;">
 
 
-                            <Message ref="message" v-if="messages" v-for="mess in messages"
+                            <Message id="observ-mess" ref="message" v-if="messages" v-for="mess in messages"
+                                :messageId = "mess.id"
+                                :chatId = "this.chatInfo.id"
                                 :to="mess.to"
                                 :contactId="contactInfo.id"
                                 :text="mess.message"
                                 :avatar="mess.sender.avatarUrl"
+                                :isRead = "message.isRead"
                                 :createdAt="mess.created" />
-
 
 
                             <div v-if="!messages">Noting messages</div>
@@ -89,6 +91,11 @@ export default {
                 console.log(e);
                 this.getMessages(this.$route.params.id);
             });
+
+        //const el = document.querySelector('#observ-mess');
+        //this.observer();
+
+        //this.updateUnreadMessage();
     },
 
     watch:{
@@ -96,12 +103,23 @@ export default {
             immediate: true,
             handler(){
                 this.getMessages(this.$route.params.id);
+                //this.updateUnreadMessage(this.$route.params.id);
                 console.log('change chat!')
             },
         },
 
+        // isNotReadMessage(messages){
+        //     //let res = messages.map(item => item.isRead).indexOf(0)
+        //     let res = Object.values(messages).filter(elem => {
+        //         elem.isRead == 0
+        //     })
+        //     return res;
+        // },
+
         messages(messages){
             this.scrollToBottom();
+            this.updateUnreadMessage(this.$route.params.id);
+
         },
     },
 
@@ -112,6 +130,7 @@ export default {
             contactInfo:[],
             chatInfo:[],
             messages:[],
+            unreadMessage:0,
         }
     },
 
@@ -119,7 +138,8 @@ export default {
 
         async getMessages(chatId){
             let userId = JSON.parse(localStorage.getItem('user_info')).id;
-            await axios.get(`/api/client/chat/${userId}/${chatId}/`, {
+
+            await axios.get(`/api/client/chat/${userId}/${chatId}`, {
                 headers: {
                         Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
                     }
@@ -129,8 +149,6 @@ export default {
                     this.chatInfo = res.data.chat;
                     this.contactInfo = res.data.contacts;
                     this.messages = res.data.messages;
-                    //console.log(this.messages)
-                    //console.log('contactsInfo:', this.contactInfo)
 
                 })
                 .catch(error =>{
@@ -144,7 +162,7 @@ export default {
             data.append('from', Number(JSON.parse(localStorage.getItem('user_info')).id));
             data.append('to', Number(this.contactInfo.id));
 
-            axios.post(`/api/client/message/${this.chatInfo.id}/store/`, data, {
+            axios.post(`/api/client/message/${this.chatInfo.id}/store`, data, {
                 headers:{
                     Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
                 }
@@ -164,7 +182,35 @@ export default {
                 this.$refs.feed.scrollTop = this.$refs.feed.scrollHeight
             })
 
-        }
+        },
+
+        updateUnreadMessage(chatId){
+            //console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+            //console.log('unread:', this.messages)
+            let unreadMessage = Object.values(this.messages).filter(elem => {
+                return elem.isRead === 0
+            }).length;
+
+            console.log('unreadMessage', unreadMessage)
+
+            if(unreadMessage===0){
+                console.log('all message is read.')
+                return false;
+            }
+
+            axios.post(`/api/client/message/${this.chatInfo.id}/read`, {},{
+                headers:{
+                    Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
+                }
+            })
+                .then(res => {
+                    this.getMessages(chatId);
+                    console.log(res);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
 
     }
 }

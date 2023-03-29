@@ -29,7 +29,7 @@ export default {
 
     methods:{
         showSelectedMenu(selectedMenu){
-            console.log('Selected menu: '+this.selectedMenu)
+            //console.log('Selected menu: '+this.selectedMenu)
             this.selectedMenu = selectedMenu
         }
     }
