@@ -21,31 +21,12 @@ export default {
     props:['messageId', 'chatId','contactId', 'to', 'avatar', 'text', 'isRead','createdAt'],
 
     mounted(){
-        //console.log('observe elem', document.querySelector(`#observe-mess-${this.messageId}`));
         //this.observer();
     },
 
 
 
     methods:{
-        readMessage(isRead, messageId){
-            console.log('Message read!!!');
-            // if(isRead === 1){
-            //     return true;
-            // }
-
-            // axios.post(`/api/client/message/${this.chatId}/read/${messageId}`, data, {
-            //     headers:{
-            //         Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
-            //     }
-            // })
-            //     .then(res => {
-            //         console.log(res);
-            //     })
-            //     .catch(error => {
-            //         console.log(error);
-            //     })
-        },
 
         observer(){
             let elem = document.querySelector(`#mess`);

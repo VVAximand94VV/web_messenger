@@ -1,5 +1,5 @@
 /* Light or Dark theme */
-/* 
+/*
 :where(*) #app.true{
     --chatlist-p: #ebdbdb;;
     --chat-area-bg: rgb(34, 31, 31);
@@ -10,7 +10,7 @@
     --sidebar-li: #e4d2d2;
     --sidebar-block: #e4d2d2;
     --sidebar-close-btn: rgb(250, 239, 239);
-} 
+}
 
 :where(*) #app.false{
     --chatlist-p: #343434;;
@@ -22,7 +22,7 @@
     --sidebar-li: #818181;
     --sidebar-block: #818181;
     --sidebar-close-btn: rgb(34, 31, 31);
-} 
+}
 
 
 .blur{
@@ -121,25 +121,11 @@ message-area
     margin-bottom: 0;
 }
 
-.chat-list a {
-    margin-bottom: 15px;
-    position: relative;
-    text-decoration: none;
-} 
-
-.chat-list .active {
-    display: block;
-    content: '';
-    clear: both;
-    position: absolute;
-    bottom: 3px;
-    left: 34px;
-    height: 12px;
-    width: 12px;
-    background: #00DB75;
-    border-radius: 50%;
-    border: 2px solid #fff;
-}
+/*.chat-list a {*/
+/*    margin-bottom: 15px;*/
+/*    position: relative;*/
+/*    text-decoration: none;*/
+/*}*/
 
 .msg-head h3 {
     color: var(--msg-head-h3);
@@ -281,4 +267,4 @@ button:focus {
 }
 .sidebar-icon{
     margin-right: 18x;
-} 
+}

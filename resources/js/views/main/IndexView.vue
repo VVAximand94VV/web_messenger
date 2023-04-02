@@ -42,9 +42,9 @@
 
                                                             <router-link
                                                                 v-if="chats" v-for="chat in chats"
-                                                                @click="this.$store.dispatch('changeChatlist')"
-                                                                :to="{ name:'chat.single', params:{id:chat.id} }" class="d-flex justify-content-between">
-                                                                <div class="d-flex flex-row chat">
+                                                                @click="this.$store.dispatch('changeChatlist'); this.updateUnreadMessage(chat.id, true);"
+                                                                :to="{ name:'chat.single', params:{id:chat.id} }" :class="`d-flex p-1 mt-3 justify-content-between chat ${chat.id == this.selectedChat?'selected-chat':''}`">
+                                                                <div class="d-flex flex-row">
                                                                 <div>
                                                                     <img
                                                                         src="../../assets/image/avatar/ava6-bg.webp"
@@ -52,14 +52,14 @@
                                                                     <span class="badge bg-success badge-dot"></span>
                                                                 </div>
                                                                 <div class="pt-1">
-                                                                    <p v-for="contact in chat.users" class="fw-bold mb-0">
+                                                                    <p v-for="contact in chat.users" class="fw-bold mb-0 user-name">
                                                                         {{ contact.id !== userId ? contact.login:'' }}
                                                                     </p>
-                                                                    <p class="small text-muted">Lorem ipsum dolor sit.</p>
+                                                                    <p class="small last-message">Lorem ipsum dolor sit.</p>
                                                                 </div>
                                                                     </div>
-                                                                <div class="pt-1">
-                                                                    <p class="small text-danger mb-1">{{ isNotReadMessage(chat.messages)??'' }}</p>
+                                                                <div v-if="chat.unreadMessages" class="pt-1">
+                                                                    <p class="unread-message small mt-1 mb-1">{{ chat.unreadMessages }}</p>
                                                                 </div>
                                                             </router-link>
 
@@ -110,13 +110,31 @@ export default {
     components: {SettingModal, DropdownSettings},
 
     mounted() {
-        this.getChats()
+        this.getChats();
+
+        Echo.private(`messages`)
+            .listen('NewMessage', (e) => {
+                console.log('new message...', e);
+                if(e.from != this.userId){
+                    this.updateUnreadMessage(e.chatId, false)
+                }
+            });
+    },
+
+    watch:{
+        '$route.params.id': {
+            immediate: true,
+            handler(){
+                this.selectedChat = this.$route.params.id
+            },
+        },
     },
 
     data(){
       return{
-        userId:JSON.parse(localStorage.getItem('user_info')).id,
-        chats:[],
+          userId:JSON.parse(localStorage.getItem('user_info')).id,
+          chats:[],
+          selectedChat:0,
       }
     },
 
@@ -129,7 +147,7 @@ export default {
                     }
                 })
                 .then(res => {
-                    console.log('Chat info...:', res)
+                    console.log('Chat info....:', res)
                     this.chats = res.data.chats;
                 })
                 .catch(error => {
@@ -137,34 +155,41 @@ export default {
                 })
         },
 
-        isNotReadMessage(messages){
-            let res = Object.values(messages).filter(elem => {
-                return elem.isRead == 0
-            }).length;
+        updateUnreadMessage(chatId, reset){
 
-            console.log('not read message: ',res);
-            return res;
+            this.chats = this.chats.map((elem) => {
+
+
+                if(chatId == elem.id && elem.unreadMessages > 0){
+
+                    // if you sended message
+
+                    if(reset){
+                        elem.unreadMessages = 0
+                        this.updateUnreadMessageInDB(elem.id);
+                    }else{
+                        elem.unreadMessages += 1;
+                    }
+
+                }
+                return elem;
+            })
+        },
+
+        updateUnreadMessageInDB(chatId){
+            axios.post(`/api/client/message/${chatId}/read`, {},{
+                    headers:{
+                        Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
+                    }
+                })
         },
     },
 
     computed:{
-        // contactLogin(contacts){
-        //     let userId = JSON.parse(localStorage.getItem('user_info')).id;
-
-        //     contacts.forEach(e => {
-
-        //     })
-
-        //     let result = contacts.find(elem => elem.id != userId);
-
-        //     return result;
-        // },
-
         // sorted contacts for last message
-        sortedContactsByLastMessage(){
-
-        },
-
+        // sortedContactsByLastMessage(){
+        //
+        // },
 
     },
 }
@@ -206,4 +231,26 @@ export default {
     font-size: 16px;
 
 }
+
+.unread-message{
+    background-color: #00DB75;
+    color: white;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.selected-chat{
+    background-color: rgb(13, 110, 253);
+    border-radius: 10px;
+    color: #ffffff;
+}
+
+.user-name{
+    color: #111111;
+}
+
+.last-message{
+    color: #6c757d;
+}
+
 </style>

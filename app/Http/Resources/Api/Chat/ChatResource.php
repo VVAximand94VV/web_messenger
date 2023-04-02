@@ -18,9 +18,10 @@ class ChatResource extends JsonResource
         return [
             'id' => $this->id,
             'type' => $this->type,
-            'messages' => MessageResource::collection($this->messages),
+            'messages' => $this->messages,
+            'unreadMessages' => $this->messages->where('isRead', '=', 0)->count(),
             'users' => $this->users,
-            //'contactInfo' => $this->contactInfo,
+            //'contact' => $this->users->where('id', '!=', ),
         ];
     }
 }

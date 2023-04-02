@@ -87,15 +87,8 @@ export default {
     mounted(){
         Echo.private(`messages`)
             .listen('NewMessage', (e) => {
-                //alert('New message!');
-                console.log(e);
                 this.getMessages(this.$route.params.id);
             });
-
-        //const el = document.querySelector('#observ-mess');
-        //this.observer();
-
-        //this.updateUnreadMessage();
     },
 
     watch:{
@@ -103,23 +96,12 @@ export default {
             immediate: true,
             handler(){
                 this.getMessages(this.$route.params.id);
-                //this.updateUnreadMessage(this.$route.params.id);
                 console.log('change chat!')
             },
         },
 
-        // isNotReadMessage(messages){
-        //     //let res = messages.map(item => item.isRead).indexOf(0)
-        //     let res = Object.values(messages).filter(elem => {
-        //         elem.isRead == 0
-        //     })
-        //     return res;
-        // },
-
         messages(messages){
             this.scrollToBottom();
-            this.updateUnreadMessage(this.$route.params.id);
-
         },
     },
 
@@ -182,34 +164,6 @@ export default {
                 this.$refs.feed.scrollTop = this.$refs.feed.scrollHeight
             })
 
-        },
-
-        updateUnreadMessage(chatId){
-            //console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-            //console.log('unread:', this.messages)
-            let unreadMessage = Object.values(this.messages).filter(elem => {
-                return elem.isRead === 0
-            }).length;
-
-            console.log('unreadMessage', unreadMessage)
-
-            if(unreadMessage===0){
-                console.log('all message is read.')
-                return false;
-            }
-
-            axios.post(`/api/client/message/${this.chatInfo.id}/read`, {},{
-                headers:{
-                    Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
-                }
-            })
-                .then(res => {
-                    this.getMessages(chatId);
-                    console.log(res);
-                })
-                .catch(error => {
-                    console.log(error);
-                })
         },
 
     }
