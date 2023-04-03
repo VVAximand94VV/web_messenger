@@ -19,9 +19,11 @@ class ChatResource extends JsonResource
             'id' => $this->id,
             'type' => $this->type,
             'messages' => $this->messages,
-            'unreadMessages' => $this->messages->where('isRead', '=', 0)->count(),
-            'users' => $this->users,
-            //'contact' => $this->users->where('id', '!=', ),
+            'contacts' => $this->contacts,
+            'unreadMessages' => $this->unreadMessages,
+            //'unreadMessages' => $this->messages->where('isRead', '=', 0)->count(),
+            //'users' => $this->users,
+
         ];
     }
 }

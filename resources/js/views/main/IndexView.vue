@@ -52,7 +52,7 @@
                                                                     <span class="badge bg-success badge-dot"></span>
                                                                 </div>
                                                                 <div class="pt-1">
-                                                                    <p v-for="contact in chat.users" class="fw-bold mb-0 user-name">
+                                                                    <p v-for="contact in chat.contacts" class="fw-bold mb-0 user-name">
                                                                         {{ contact.id !== userId ? contact.login:'' }}
                                                                     </p>
                                                                     <p class="small last-message">Lorem ipsum dolor sit.</p>
@@ -105,18 +105,27 @@
 import axios from "axios";
 import DropdownSettings from "../../components/DropdownSettingsMenu/DropdownSettings.vue";
 import SettingModal from "../../components/SettingModal.vue";
+import {useToast} from "vue-toastification";
 export default {
     name: "IndexView",
     components: {SettingModal, DropdownSettings},
+
+    setup(){
+        return {
+            t$: useToast(),
+        }
+    },
 
     mounted() {
         this.getChats();
 
         Echo.private(`messages`)
             .listen('NewMessage', (e) => {
-                console.log('new message...', e);
-                if(e.from != this.userId){
-                    this.updateUnreadMessage(e.chatId, false)
+                console.log('new message.......', e);
+                if(e.message.to == this.userId){
+                    // toast
+                    this.t$.info('You have a nave message');
+                    this.updateUnreadMessage(e.message.chatId, false)
                 }
             });
     },
@@ -158,26 +167,20 @@ export default {
         updateUnreadMessage(chatId, reset){
 
             this.chats = this.chats.map((elem) => {
-
-
-                if(chatId == elem.id && elem.unreadMessages > 0){
-
-                    // if you sended message
-
+                if(chatId == elem.id){
                     if(reset){
                         elem.unreadMessages = 0
                         this.updateUnreadMessageInDB(elem.id);
                     }else{
                         elem.unreadMessages += 1;
                     }
-
                 }
                 return elem;
             })
         },
 
         updateUnreadMessageInDB(chatId){
-            axios.post(`/api/client/message/${chatId}/read`, {},{
+            axios.post(`/api/client/message/${chatId}/${this.userId}/read`, {},{
                     headers:{
                         Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
                     }

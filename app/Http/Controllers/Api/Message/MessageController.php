@@ -38,10 +38,12 @@ class MessageController extends Controller
         ]);
     }
 
-    public function readMessages(Chat $chat){
+    public function readMessages(Chat $chat, User $user){
         //dd("It's work!");
 
-        $unreadMessage = Message::where('isRead', '=', 0)->where('chatId', '=', $chat->id)->get();
+        $unreadMessage = Message::where('isRead', '=', 0)->where('chatId', '=', $chat->id)->where('to', '=', $user->id)->get();
+
+        //dd($unreadMessage);
 
         if($unreadMessage->count() > 0){
             foreach($unreadMessage as $message){

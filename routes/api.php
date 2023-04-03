@@ -42,7 +42,8 @@ Route::group(['prefix' => 'client'], function(){
 
         Route::group(['prefix' => 'message/{chat}'], function () {
             Route::post('/store', [\App\Http\Controllers\Api\Message\MessageController::class, 'store']);
-            Route::post('/read', [\App\Http\Controllers\Api\Message\MessageController::class, 'readMessages']);
+            //Route::post('/read', [\App\Http\Controllers\Api\Message\MessageController::class, 'readMessages']);
+            Route::post('/{user}/read', [\App\Http\Controllers\Api\Message\MessageController::class, 'readMessages']);
         });
 
     });

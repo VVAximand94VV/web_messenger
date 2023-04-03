@@ -121,12 +121,6 @@ message-area
     margin-bottom: 0;
 }
 
-/*.chat-list a {*/
-/*    margin-bottom: 15px;*/
-/*    position: relative;*/
-/*    text-decoration: none;*/
-/*}*/
-
 .msg-head h3 {
     color: var(--msg-head-h3);
     font-size: 18px;

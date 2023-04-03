@@ -15,13 +15,17 @@ class ChatController extends Controller
 {
 
     public function index(User $user){
-        
+
         $chats = Chat::whereHas('users', function($b) use($user){
             $b->where('userId',$user->id);
         })->get();
 
-        //$chats['contactIinfo'] = $user->id != $;
+        foreach ($chats as $elem){
+            $elem->contacts = $elem->users->where('id', '!=', $user->id);
+            $elem->unreadMessages = $elem->messages->where('isRead', '=', 0)->where('to', '=', $user->id)->count();
+        }
 
+        //dd($chats[0]);
         return response()->json([
             'chats' => ChatResource::collection($chats),
         ]);
@@ -30,7 +34,7 @@ class ChatController extends Controller
     public function store(User $user, CreateChatRequest $request){
         $recipient = User::where('id', $request['recipientId'])->first();
         $users = [$user->id, $recipient->id];
-        
+
         $chat = Chat::where('type', 0)->whereHas('users', function($q) use($users){
             $q->where('userId', $users[0]);
         })->whereHas('users', function($q) use($users){
