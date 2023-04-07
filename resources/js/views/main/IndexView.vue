@@ -41,7 +41,7 @@
                                                         <!-- Chat list / conatcs -->
 
                                                             <router-link
-                                                                v-if="chats" v-for="chat in chats"
+                                                                v-if="chats" v-for="chat in chatsByLastMessage"
                                                                 @click="this.$store.dispatch('changeChatlist'); this.updateUnreadMessage(chat.id, true);"
                                                                 :to="{ name:'chat.single', params:{id:chat.id} }" :class="`d-flex p-1 mt-3 justify-content-between chat ${chat.id == this.selectedChat?'selected-chat':''}`">
                                                                 <div class="d-flex flex-row">
@@ -119,9 +119,11 @@ export default {
     mounted() {
         this.getChats();
 
+        // console.log('chatsByLastMessage', this.chatsByLastMessage)
+
         Echo.private(`messages`)
             .listen('NewMessage', (e) => {
-                console.log('new message.......', e);
+                //console.log('new message.......', e);
                 if(e.message.to == this.userId){
                     // toast
                     this.t$.info('You have a nave message');
@@ -158,6 +160,7 @@ export default {
                 .then(res => {
                     console.log('Chat info....:', res)
                     this.chats = res.data.chats;
+                    console.log('chatsByLastMessage', this.chatsByLastMessage)
                 })
                 .catch(error => {
                     console.log(error)
@@ -189,10 +192,13 @@ export default {
     },
 
     computed:{
-        // sorted contacts for last message
-        // sortedContactsByLastMessage(){
-        //
-        // },
+        // sorted chats by unread messages
+        chatsByLastMessage(){
+            let chats = this.chats;
+            return _.sortBy(chats, [(chat) => {
+                chat.unreadMessages;
+            }]).reverse();
+        },
 
     },
 }

@@ -25,7 +25,6 @@ class ChatController extends Controller
             $elem->unreadMessages = $elem->messages->where('isRead', '=', 0)->where('to', '=', $user->id)->count();
         }
 
-        //dd($chats[0]);
         return response()->json([
             'chats' => ChatResource::collection($chats),
         ]);

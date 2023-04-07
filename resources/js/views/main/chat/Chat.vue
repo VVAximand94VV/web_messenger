@@ -127,7 +127,7 @@ export default {
                     }
             })
                 .then(res => {
-                    console.log('chat-info: ',res.data.chat)
+                    //console.log('chat-info: ',res.data.chat)
                     this.chatInfo = res.data.chat;
                     this.contactInfo = res.data.contacts;
                     this.messages = res.data.messages;

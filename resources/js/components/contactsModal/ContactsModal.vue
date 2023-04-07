@@ -4,26 +4,26 @@
             <div class="modal-content">
                 <div class="modal-header d-flex flex-column">
                     <h5 class="d-flex">Contacts</h5>
-                    <input type="search" class="form-control" placeholder="Search users">
+                    <input type="search" v-model="userName" class="form-control" placeholder="Search users">
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="overflow-auto">
                             <ul class="list-unstyled">
-                                
 
 
-                                <template v-for="contact in contacts">
+
+                                <template v-if="users" v-for="contact in users">
                                     <li class="d-flex justify-content-between">
                                         <div @click="createChat(contact.id)" role="button" class="d-flex flex-row">
                                             <div>
                                                 <img :src="contact.avatar" alt="avatar" class="d-flex align-self-center me-3" width="45">
-                                                <span class="badge bg-warning badge-dot"></span>                                
+                                                <span class="badge bg-warning badge-dot"></span>
                                             </div>
                                             <div class="pt-1">
                                                 <p class="fw-bold mb-0">{{ contact.name }}</p>
                                                 <p class="small text-muted">{{ contact.status ? 'Online':'Offline' }}</p>
-                                            </div>                   
+                                            </div>
                                         </div>
                                         <div class="d-flex">
                                             <i class="fas fa-user-friends mx-2" title="Contact in your friends list." style="font-size: 1.3em;"></i>
@@ -35,13 +35,15 @@
                                                 <li><a class="dropdown-item" href="#">Add/Remov in contact</a></li>
                                                 <li><a class="dropdown-item" href="#">Other</a></li>
                                             </ul>
-                                        </div>    
-                                    </li>                            
+                                        </div>
+                                    </li>
                                 </template>
+
+                                <p class="mt-2" v-if="users==0"><b>Users for your request were not found.</b></p>
 
                             </ul>
                         </div>
-                        
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -64,13 +66,23 @@ export default {
         }
     },
 
+    watch:{
+        'userName':{
+            handler(){
+                //console.log(this.searchUser)
+                this.searchUserName()
+            }
+        }
+    },
+
     mounted() {
         this.getContacts()
     },
 
     data(){
       return{
-        contacts:[],
+        users:[],
+        userName:'',
       }
     },
 
@@ -83,9 +95,8 @@ export default {
                     }
                 })
                 .then(res => {
-                    
-                    this.contacts = res.data.contacts
-                    console.log('Your contacts: ', this.contacts)
+
+                    this.users = res.data.contacts
                 })
                 .catch(error => {
                     console.log(error)
@@ -93,7 +104,6 @@ export default {
         },
 
         async createChat(recipientId){
-            //console.log('creeate chat')
             let id = JSON.parse(localStorage.getItem('user_info')).id;
             await axios.post(`/api/client/chat/${id}/store`, {
                 recipientId: recipientId
@@ -103,7 +113,6 @@ export default {
                     }
                 })
                 .then(res => {
-                    console.log('create chat result', res);
                     this.t$.success(res.data.message);
                     if(res.data.chat){
                         this.$router.push({name:'chat.single', params:{id:res.data.chat.id}});
@@ -111,6 +120,24 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
+                })
+        },
+
+        searchUserName(){
+            console.log(this.userName)
+
+            let id = JSON.parse(localStorage.getItem('user_info')).id;
+            axios.post(`/api/client/contacts/${id}/search`, {userName: this.userName}, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
+                }
+            })
+                .then(res => {
+                    console.log('All users: ', res.data.users)
+                    this.users = res.data.users
+                })
+                .catch(error => {
+                    console.log(error)
                 })
         }
     }
