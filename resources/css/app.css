@@ -288,7 +288,11 @@ button:focus {
 ***************/
 .main-chat-area{
     height: 100%;
-    background: repeat url("/resources/js/assets/image/chat/background/chat-background.jpg");
+    background: repeat url("/resources/js/assets/image/chat/background/default-bg.jpg");
     color: black;
     min-height: 770px
+}
+
+.default-chat-area{
+    background: repeat url("/resources/js/assets/image/chat/background/bg2.jpg");
 }

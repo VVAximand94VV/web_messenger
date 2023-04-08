@@ -22,4 +22,8 @@ class Message extends Model
     public function sender(){
         return $this->belongsTo(User::class, 'from');
     }
+
+    public function files(){
+        return $this->hasMany(MessageFile::class, 'messageId', 'id');
+    }
 }

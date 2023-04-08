@@ -9,10 +9,10 @@
                             <div class="d-flex align-items-center">
                                 <span class="chat-icon"><i class="fas fa-arrow-left"></i></span>
                                 <div class="flex-shrink-0">
-                                    <img class="img-fluid" @click.prevent="this.$store.dispatch('changeChatlist')" src="../../../assets/image/avatar/ava6-bg.webp" width="45" height="45" alt="user img">
+                                    <img class="img-fluid" @click.prevent="this.$store.dispatch('changeChatlist')" :src="contact.avatarUrl" width="45" height="45" alt="user avatar">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
-                                    <h3>Ben Smith - {{ this.$route.params.id }}</h3>
+                                    <h3>{{ contactName }}</h3>
                                     <p>{{ $t('chatView.typing') }}...</p>
                                 </div>
                             </div>
@@ -21,7 +21,7 @@
                         <!-- ПЕРЕДЕЛАТЬ -->
                         <div class="col-4 d-flex flex-row-reverse">
                             <div class="dropdown">
-                                <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="btn" href="#" role="button" disabled data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </a>
 
@@ -37,7 +37,7 @@
 
 
                 <!-- <Messages :chatId="this.$route.params.id" /> -->
-                <div class="modal-body" ref="feed" style="overflow-x: hidden;">
+                <div class="modal-body default-chat-area" ref="feed" style="overflow-x: hidden;">
                     <div class="msg-body">
                         <div class="pt-3 mt-3 pe-3 px-1 container-fluid h-100 mx-1" style="position: absolute;">
 
@@ -46,11 +46,13 @@
                                 :messageId = "mess.id"
                                 :chatId = "this.chatInfo.id"
                                 :to="mess.to"
-                                :contactId="contactInfo.id"
+                                :contactId="contact.id"
                                 :text="mess.message"
                                 :avatar="mess.sender.avatarUrl"
                                 :isRead = "message.isRead"
-                                :createdAt="mess.created" />
+                                :createdAt="mess.created"
+                                :files="mess.files"
+                            />
 
 
                             <div v-if="!messages">Noting messages</div>
@@ -64,19 +66,19 @@
                     <div class="d-flex flex-row justify-content-between">
 
                         <div class="input-group">
-                            <input @keydown.enter="sendMessage" type="text" v-model="message" class="form-control d-flex flex-grow-1" :placeholder="$t('chatView.writeMessage')" aria-label="message…" aria-describedby="button-addon2">
-                            <div class="dropup-center dropup">
-                                <button class="btn btn-outline-secondary  dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" type="button" id="button-addon2"><i class="fa fa-face-smile"></i></button>
+                            <span class="input-group-text" role="button"  id="file-clip"><i class="fas fa-paperclip"></i></span>
+                            <!-- emoji -->
+                            <span class="input-group-text" role="button" id="emoji" data-bs-toggle="dropdown" aria-expanded="false"><i class="far fa-smile"></i></span>
+                            <div class="dropdown">
                                 <div class="dropdown-menu">
                                     <Emoji @emoji_click="addEmoji" />
                                 </div>
                             </div>
-
+                            <!-- -->
+                            <input @keydown.enter="sendMessage" type="text" v-model="message" class="form-control d-flex flex-grow-1" :placeholder="$t('chatView.writeMessage')" aria-label="message…">
                         </div>
 
                         <button type="button" @click.prevent="sendMessage" class="btn btn-primary mx-1"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-
-                        <button ref="dropzone" type="button" class="btn btn-danger mx-1"><i class="fas fa-folder-plus"></i></button>
 
                     </div>
                 </div>
@@ -91,7 +93,6 @@
 import axios from 'axios';
 import Message from '../../../components/chat/Message.vue';
 import Emoji from "../../../components/emoji/Emoji.vue";
-import Dropzone from 'dropzone';
 
 export default {
     name: "Chat",
@@ -102,13 +103,6 @@ export default {
             .listen('NewMessage', (e) => {
                 this.getMessages(this.$route.params.id);
             });
-
-        this.dropzone = new Dropzone(this.$refs.dropzone, {
-            url:'sssssss',
-            maxFiles: 5,
-            autoProcessQueue: false,
-            // addRemoveLinks: true,
-        })
     },
 
     watch:{
@@ -131,7 +125,7 @@ export default {
         return{
             dropzone: null,
             message:'',
-            contactInfo:[],
+            contact:[],
             chatInfo:[],
             messages:[],
             unreadMessage:0,
@@ -150,10 +144,10 @@ export default {
                     }
             })
                 .then(res => {
-                    //console.log('chat-info: ',res.data.chat)
                     this.chatInfo = res.data.chat;
-                    this.contactInfo = res.data.contacts;
+                    this.contact = res.data.contacts;
                     this.messages = res.data.messages;
+                    console.log('Chat contacts..:', res.data.contacts);
 
                 })
                 .catch(error =>{
@@ -165,7 +159,7 @@ export default {
             const data = new FormData();
             data.append('message', this.message);
             data.append('from', Number(JSON.parse(localStorage.getItem('user_info')).id));
-            data.append('to', Number(this.contactInfo.id));
+            data.append('to', Number(this.contact.id));
 
             axios.post(`/api/client/message/${this.chatInfo.id}/store`, data, {
                 headers:{
@@ -194,10 +188,18 @@ export default {
 
         },
 
+    },
+
+    computed:{
+        contactName(){
+            return this.contact.firstName+' '+this.contact.lastName;
+        }
     }
 }
 </script>
 
 <style scoped>
-
+input{
+    font-size: 1.2em;
+}
 </style>

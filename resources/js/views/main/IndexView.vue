@@ -119,8 +119,6 @@ export default {
     mounted() {
         this.getChats();
 
-        // console.log('chatsByLastMessage', this.chatsByLastMessage)
-
         Echo.private(`messages`)
             .listen('NewMessage', (e) => {
                 //console.log('new message.......', e);
@@ -251,10 +249,14 @@ export default {
 .selected-chat{
     background-color: rgb(13, 110, 253);
     border-radius: 10px;
+
+}
+
+.selected-chat p{
     color: #ffffff;
 }
 
-.user-name{
+.selected-chat .user-name{
     color: #111111;
 }
 

@@ -10,13 +10,13 @@
                         </div>
                         <div class="d-flex flex-row mt-3">
                             <div class="d-flex">
-                                <img :src="userAvatar" style="max-width: 80px" class="img-fluid img-thumbnail rounded-circle" alt="avatar">
+                                <img :src="userAvatar" style="max-width: 80px; max-height: 80px" class="rounded-circle" alt="avatar">
                             </div>
                             <div class="d-flex ms-2">
                                 <div class="d-flex flex-column">
                                     <span class="mb-1">{{ user.login }}</span>
                                     <span class="mb-1">+{{ user.phone }}</span>
-                    
+
 
                                     <div class="dropdown mb-1">
                                         <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -24,7 +24,7 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li>
-                                                <input id="file" ref="avatar" class="field-file-input" type="file" @change="handleFileUpload" name="avatar"/>  
+                                                <input id="file" ref="avatar" class="field-file-input" type="file" @change="handleFileUpload" name="avatar"/>
                                                 <span class="dropdown-item">Upload</span>
                                             </li>
                                             <li>
@@ -96,7 +96,7 @@ export default {
             axios.post(`/api/client/profile/${id}/edit-avatar`, data, {
                 headers:{
                     Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
-                }        
+                }
             })
                 .then(res => {
                     console.log(res)
@@ -108,7 +108,7 @@ export default {
                     console.log(error)
                     this.t$.error(error.response.data.message ?? 'Error');
                 })
-            
+
         }
     },
 }

@@ -10,7 +10,6 @@
                 </div>
             </div>
         </div>
-        <div class="bottom_arrow" v-if="show_arrow"></div>
     </div>
 </template>
 
@@ -18,16 +17,6 @@
 import data from '../../assets/imojis/emojis-data.json';
 export default{
     name:"Emoji",
-
-	props:
-	{
-		show_arrow:
-		{
-			type: Boolean,
-			required: false,
-			default: true
-		}
-	},
 
 	computed:
 	{
@@ -54,53 +43,45 @@ export default{
 </script>
 
 <style scoped>
-.emoji_picker
-{
+.emoji_picker {
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	width: 14rem;
-	height: 18rem;
+	width: 20rem;
+	height: 20rem;
 	max-width: 100%;
 }
 
-.emoji_picker,
-.bottom_arrow
-{
+.emoji_picker{
 	box-shadow: 0 0 5px 1px rgba(0, 0, 0, .0975);
 }
 
 .emoji_picker,
-.picker_container
-{
+.picker_container{
 	/*border-radius: 0.5rem;*/
 	background: white;
 }
 
-.picker_container
-{
+.picker_container{
 	position: relative;
 	padding: 1rem;
 	overflow: auto;
 	z-index: 1;
 }
 
-.category
-{
+.category{
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 1rem;
 	color: rgb(169, 169, 169);
 }
 
-.emojis_container
-{
+.emojis_container{
 	display: flex;
 	flex-wrap: wrap;
 }
 
-.category button
-{
+.category button{
 	margin: 0.5rem;
 	margin-left: 0;
 	background: inherit;
@@ -108,16 +89,4 @@ export default{
 	font-size: 1.75rem;
 	padding: 0;
 }
-
-/*.bottom_arrow*/
-/*{*/
-/*	position: absolute;*/
-/*	left: 50%;*/
-/*	bottom: 0;*/
-/*	width: 0.75rem;*/
-/*	height: 0.75rem;*/
-/*	transform: translate(-50%, 50%) rotate(45deg);*/
-/*	background: white;*/
-/*}*/
-
 </style>
