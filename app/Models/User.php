@@ -53,4 +53,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function messages(){
         return $this->hasMany(Message::class);
     }
+
+    public function contacts(){
+        return $this->belongsToMany(User::class, UserContact::class,  'userId','contactId');
+    }
 }

@@ -16,8 +16,9 @@ class ContactController extends Controller
 {
 
     public function index(User $user){
-        $contacts = User::all();
-
+        //$contacts = User::all();
+        $contacts = $user->contacts;
+        //dd($contacts);
         return response()->json([
             'contacts' => ContactsResource::collection($contacts),
         ]);

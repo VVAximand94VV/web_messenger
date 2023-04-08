@@ -62,11 +62,22 @@
                 <div class="send-box">
 
                     <div class="d-flex flex-row justify-content-between">
-                        <input @keydown.enter="sendMessage" type="text" v-model="message" class="form-control d-flex flex-grow-1" aria-label="message…" :placeholder="$t('chatView.writeMessage')">
+
+                        <div class="input-group">
+                            <input @keydown.enter="sendMessage" type="text" v-model="message" class="form-control d-flex flex-grow-1" :placeholder="$t('chatView.writeMessage')" aria-label="message…" aria-describedby="button-addon2">
+                            <div class="dropup-center dropup">
+                                <button class="btn btn-outline-secondary  dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" type="button" id="button-addon2"><i class="fa fa-face-smile"></i></button>
+                                <div class="dropdown-menu">
+                                    <Emoji @emoji_click="addEmoji" />
+                                </div>
+                            </div>
+
+                        </div>
 
                         <button type="button" @click.prevent="sendMessage" class="btn btn-primary mx-1"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 
-                        <button type="button" class="btn btn-danger mx-1"><i class="fas fa-folder-plus"></i></button>
+                        <button ref="dropzone" type="button" class="btn btn-danger mx-1"><i class="fas fa-folder-plus"></i></button>
+
                     </div>
                 </div>
             </div>
@@ -79,16 +90,25 @@
 <script>
 import axios from 'axios';
 import Message from '../../../components/chat/Message.vue';
+import Emoji from "../../../components/emoji/Emoji.vue";
+import Dropzone from 'dropzone';
 
 export default {
     name: "Chat",
-    components: {Message},
+    components: {Emoji, Message},
 
     mounted(){
         Echo.private(`messages`)
             .listen('NewMessage', (e) => {
                 this.getMessages(this.$route.params.id);
             });
+
+        this.dropzone = new Dropzone(this.$refs.dropzone, {
+            url:'sssssss',
+            maxFiles: 5,
+            autoProcessQueue: false,
+            // addRemoveLinks: true,
+        })
     },
 
     watch:{
@@ -103,16 +123,19 @@ export default {
         messages(messages){
             this.scrollToBottom();
         },
+
     },
 
 
     data(){
         return{
+            dropzone: null,
             message:'',
             contactInfo:[],
             chatInfo:[],
             messages:[],
             unreadMessage:0,
+            image:null,
         }
     },
 
@@ -157,6 +180,11 @@ export default {
                     console.log(error);
                     this.message = '';
                 })
+        },
+
+        addEmoji(emoji){
+            console.log('click on emoji!');
+            this.message += emoji;
         },
 
         scrollToBottom(){
