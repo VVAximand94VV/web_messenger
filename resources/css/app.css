@@ -126,19 +126,6 @@ message-area
     text-decoration: none;
 }
 
-/* .chat-list .active {
-    display: block;
-    content: '';
-    clear: both;
-    position: absolute;
-    bottom: 3px;
-    left: 34px;
-    height: 12px;
-    width: 12px;
-    background: #00DB75;
-    border-radius: 50%;
-    border: 2px solid #fff;
-} */
 
 .msg-head h3 {
     color: var(--msg-head-h3);
@@ -163,6 +150,7 @@ message-area
 }
 
 .send-box {
+    position: relative;
     padding: 15px;
     border-top: 1px solid #ccc;
 }
@@ -282,6 +270,10 @@ button:focus {
     margin-right: 18px;
 }
 
+.send-inputs{
+    position: relative;
+}
+
 
 /**************
     Main chat
@@ -296,3 +288,57 @@ button:focus {
 .default-chat-area{
     background: repeat url("/resources/js/assets/image/chat/background/bg2.jpg");
 }
+
+
+/******* Dropzone **************/
+.dropzone-container{
+    max-height: 180px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.dz-preview{
+    max-width: 120px;
+    max-height: 120px;
+}
+
+.dz-img:hover{
+    cursor: pointer;
+}
+
+.dz-img{
+    position: relative;
+}
+
+.dz-delete-btn-container{
+    display: none;
+    position: absolute;
+    top: 35px;
+    left: 45px;
+
+}
+
+.dz-delete-btn{
+    color: black;
+    font-size: 2.3em;
+    text-shadow: 1px 1px 1px white;
+}
+
+.dz-preview:hover .dz-img{
+    filter: blur(2px);
+}
+
+.dz-preview:hover .dz-delete-btn-container{
+    display: block;
+}
+
+.dz-size{
+    font-size: 0.7em;
+    font-weight: bold;
+    color: #111111;
+    text-shadow: 1px 1px 1px white;
+}
+
+
+
+

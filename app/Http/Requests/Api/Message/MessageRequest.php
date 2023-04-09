@@ -26,7 +26,8 @@ class MessageRequest extends FormRequest
         return [
             'from' => '',
             'to' => '',
-            'message' => ''
+            'message' => '',
+            'files' => '',
         ];
     }
 }

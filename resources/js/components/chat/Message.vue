@@ -16,7 +16,7 @@
                 </p>
             </div>
 
-            <p class="small ms-3 mb-3 rounded-3 text-muted float-end">{{ createdAt }}</p>
+            <p class="small ms-3 mb-3 rounded-3 float-end" style="color: white;">{{ createdAt }}</p>
         </div>
     </div>
 

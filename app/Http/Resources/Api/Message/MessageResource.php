@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Api\Message;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
 
 class MessageResource extends JsonResource
 {
@@ -21,8 +22,8 @@ class MessageResource extends JsonResource
             'to' => $this->to,
             'message' => $this->message,
             'isRead' => $this->isRead,
-            'created' => $this->created_at,
-            'updated' => $this->updated_at,
+            'created' => Carbon::parse($this->created_at)->format('h:m d.m.Y'),
+            'updated' => Carbon::parse($this->updated_at)->format('h:m d.m.Y'),
             'sender' => $this->sender,
             'files' => $this->files,
         ];
