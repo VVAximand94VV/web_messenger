@@ -1,5 +1,5 @@
 <template>
-    <div class="sidebar">
+    <div v-if="user" class="sidebar">
 
         <span class="close-btn" role="button" @click.prevent="this.$store.dispatch('changeSidebar')"><i class="fas fa-times"></i></span>
 
@@ -35,7 +35,8 @@ export default{
     data(){
         return{
             isDarkMode: JSON.parse(localStorage.getItem('theme'))??false,
-            userAvatar: ''//JSON.parse(localStorage.getItem('user_info')).avatar??false,
+            //userAvatar: JSON.parse(localStorage.getItem('user_info')).avatar??'default.jpg',
+            user: !!localStorage.getItem('user_info'),
         }
     },
 

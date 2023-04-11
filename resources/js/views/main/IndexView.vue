@@ -43,7 +43,7 @@
                                                             <router-link
                                                                 v-if="chats" v-for="chat in chatsByLastMessage"
                                                                 @click="this.$store.dispatch('changeChatlist'); this.updateUnreadMessage(chat.id, true);"
-                                                                :to="{ name:'chat.single', params:{id:chat.id} }" :class="`d-flex p-1 mt-3 justify-content-between chat ${chat.id == this.selectedChat?'selected-chat':''}`">
+                                                                :to="{ name:'chat.single', params:{id:chat.id} }" :class="`d-flex p-1 mt-3 justify-content-between chat ${chat.id == this.selectedChat?'active-chat':''}`">
                                                                 <div class="d-flex flex-row">
                                                                 <div>
                                                                     <img
@@ -156,7 +156,7 @@ export default {
                     }
                 })
                 .then(res => {
-                    console.log('Chat info....:', res)
+                    //console.log('Chat info....:', res)
                     this.chats = res.data.chats;
                     console.log('chatsByLastMessage', this.chatsByLastMessage)
                 })
@@ -246,18 +246,17 @@ export default {
     padding: 5px;
 }
 
-.selected-chat{
-    background-color: rgb(13, 110, 253);
-    border-radius: 10px;
 
-}
-
-.selected-chat p{
+.active-chat p{
     color: #ffffff;
 }
 
-.selected-chat .user-name{
+.active-chat .user-name{
     color: #111111;
+}
+
+.active-chat .last-message{
+    color: white;
 }
 
 .last-message{

@@ -5,7 +5,7 @@
             <span>Chat background:</span>
             <div>
                 <template v-if="backgroundImages" v-for="background in backgroundImages">
-                    <img :src="`http://127.0.0.1:5173/resources/js/assets/image/chat/background/${background.path}`" class="m-2 bg-img" style="max-height: 50px;max-width: 50px;" :alt="background.alt">
+                    <img @click.prevent="this.$store.dispatch('changeChatBb', background.path)" :src="`http://127.0.0.1:5173/resources/js/assets/image/chat/background/${background.path}`" class="m-2 bg-img" style="max-height: 50px;max-width: 50px;" :alt="background.name">
                 </template>
             </div>
         </div>
@@ -15,10 +15,9 @@
                 <span>Chat style:</span>
             </div>
             <div>
-                <button class="btn btn-danger btn-circle m-2"></button>
-                <button class="btn btn-info btn-circle m-2"></button>
-                <button class="btn btn-primary btn-circle m-2"></button>
-                <button class="btn btn-success btn-circle m-2"></button>
+                <template v-for="color in colors">
+                    <button @click.prevent="this.$store.dispatch('changeColorStyle', color.hex)" class="btn btn-circle m-2" :style="`background-color: ${color.hex}`" :title="color.name"></button>
+                </template>
             </div>
         </div>
     </div>
@@ -32,31 +31,55 @@ export default {
 
     data(){
         return{
+            chatBg: 'default',
             backgroundImages:[
                 {
-                    'alt':'bg1',
+                    'name':'bg1',
                     'path':'bg1.webp'
                 },
                 {
-                    'alt':'bg2',
+                    'name':'bg2',
                     'path':'bg2.jpg'
                 },
                 {
-                    'alt':'bg3',
+                    'name':'bg3',
                     'path':'bg3.jpg'
                 },
                 {
-                    'alt':'bg4',
+                    'name':'bg4',
                     'path':'bg4.jpg'
                 },
                 {
-                    'alt':'bg5',
+                    'name':'bg5',
                     'path':'bg5.jpg'
                 },
 
-            ]
+            ],
+
+            colors:[
+                {
+                  'name':'red',
+                  'hex':'#dc3545',
+                },
+                {
+                    'name':'azure',
+                    'hex':'#0dcaf0',
+                },
+                {
+                    'name':'blue',
+                    'hex':'#0d6efd',
+                },
+                {
+                    'name':'green',
+                    'hex':'#198754',
+                },
+            ],
         }
     },
+
+    methods:{
+
+    }
 }
 </script>
 

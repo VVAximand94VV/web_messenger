@@ -1,10 +1,10 @@
 <template>
 
-    <div id="mess" :data-message-id="messageId" :class="`d-flex flex-row justify-content-${to !== contactId ? 'start':'end'}`">
+    <div id="mess" :data-message-id="messageId" :class="`d-flex flex-row ${to !== contactId ? 'message-start':'message-end'}`">
         <img :src="avatar"
             alt="avatar 1" style="width: 45px; height: 100%; border-radius: 35%;">
         <div>
-            <div :class="`small p-2 ms-3 mb-1 rounded-3 ${to !== contactId ? '':'text-white'}`" :style="`background-color: ${to !== contactId ? '#f5f6f7':' #0d6efd'};`">
+            <div :class="`small p-2 ms-3 mb-1 rounded-3 ${to !== contactId ? 'message-start-bg':'message-end-bg'}`">
                 <template v-if="files!=0">
                     <p v-for="file in files">
                         <img class="message-image rounded-1" :src="file.fileUrl" alt="img">

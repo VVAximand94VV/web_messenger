@@ -24,8 +24,12 @@ export default {
     name: "App",
     components: { UserSidebar, SettingModal, ContactsModal },
 
-    mounted(){
+    created(){
         this.$store.dispatch('changeTheme', localStorage.getItem('theme'))
+    },
+
+    mounted(){
+
     },
 
 }

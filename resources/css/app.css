@@ -1,5 +1,4 @@
 /* Light or Dark theme */
-
 :where(*) #app.true{
     --chatlist-p: #ebdbdb;;
     --chat-area-bg: rgb(34, 31, 31);
@@ -22,6 +21,12 @@
     --sidebar-li: #818181;
     --sidebar-block: #818181;
     --sidebar-close-btn: rgb(34, 31, 31);
+}
+
+:root{
+    --chat-bg: repeat url('/resources/js/assets/image/chat/background/default-bg.jpg');
+
+    --dynamic-color-style: #0d6efd;
 }
 
 
@@ -229,7 +234,7 @@ button:focus {
     left: 0;
     display: none;
     z-index: 1;
-    background-color: var(--sidebar-bg);
+    background-color: var(--sidebar-bg, #e4d2d2);
     overflow-x: hidden;
     padding-top: 20px;
     transition: 0.5s;
@@ -286,7 +291,7 @@ button:focus {
 }
 
 .default-chat-area{
-    background: repeat url("/resources/js/assets/image/chat/background/bg2.jpg");
+    background: var(--chat-bg);
 }
 
 
@@ -340,5 +345,26 @@ button:focus {
 }
 
 
+.message-start{
+    justify-content: start;
+    color: #111111;
+}
+.message-end{
+    justify-content: end;
+    color: white;
+}
 
+.message-start-bg{
+    background-color: #f5f6f7;
+}
+
+.message-end-bg{
+    background-color: var(--dynamic-color-style);
+}
+
+.active-chat{
+    background-color: var(--dynamic-color-style);
+    /*background-color: rgb(13, 110, 253);*/
+    border-radius: 10px;
+}
 
