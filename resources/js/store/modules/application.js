@@ -32,9 +32,7 @@ export  default {
 
         changeColorStyle({dispatch}, color){
           localStorage.setItem('color-them', color);
-          //const colorDiv = document.querySelectorAll('.dynamic-color-theme');
-          const elements = document.querySelectorAll('.message-end-bg, .active-chat');
-          //console.log(elements)
+          const elements = document.querySelectorAll('.default-chat-area, .chat-lists');
           elements.forEach(elem => {
               elem.style.setProperty('--dynamic-color-style', color);
           });

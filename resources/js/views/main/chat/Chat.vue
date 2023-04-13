@@ -13,7 +13,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h3>{{ contactName }}</h3>
-                                    <p>{{ $t('chatView.typing') }}...</p>
+                                    <p v-if="isTyping">{{ $t('chatView.typing') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
 
                             <Message id="observ-mess" ref="message" v-if="messages" v-for="mess in messages"
                                 :messageId = "mess.id"
-                                :chatId = "this.chatInfo.id"
+                                :chatId = "this.chat.id"
                                 :to="mess.to"
                                 :contactId="contact.id"
                                 :text="mess.message"
@@ -81,7 +81,7 @@
                                     </div>
                                 </div>
                                 <!-- -->
-                                <input @keydown.enter="sendMessage" type="text" v-model="message" class="form-control d-flex flex-grow-1" :placeholder="$t('chatView.writeMessage')" aria-label="message…">
+                                <input @keydown.enter="sendMessage" type="text" v-model="message" @keydown="typingInterceptor" class="form-control d-flex flex-grow-1" :placeholder="$t('chatView.writeMessage')" aria-label="message…">
                             </div>
 
                             <button type="button" @click.prevent="sendMessage" class="btn btn-primary mx-1"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
@@ -118,9 +118,20 @@ export default {
     },
 
     mounted(){
-        Echo.private(`messages`)
+        this.channel
             .listen('NewMessage', (e) => {
                 this.getMessages(this.$route.params.id);
+                this.isTyping = false;
+            }).listenForWhisper('typing', (e) => {
+                this.isTyping = true;
+
+                if(this.timer){
+                    clearTimeout(this.timer)
+                }
+
+                this.timer = setTimeout(() => {
+                    this.isTyping = false;
+                }, 1000)
             });
 
         this.dropzone = new Dropzone(this.$refs.dropzone, {
@@ -128,7 +139,6 @@ export default {
             maxFiles: 6,
             acceptedFiles:".png,.jpg,.gif,.bmp,.jpeg",
             autoProcessQueue: false,
-            // addRemoveLinks: true,
             previewsContainer: this.$refs["dropzone-content-container"],
             previewTemplate: this.dzTemplate,
             maxfilesexceeded:function(file){
@@ -137,6 +147,7 @@ export default {
         });
 
         this.$store.dispatch('changeChatBb', localStorage.getItem('chat-bg-img'))
+
 
     },
 
@@ -161,10 +172,12 @@ export default {
             dropzone: null,
             message:'',
             contact:[],
-            chatInfo:[],
+            chat:[],
             messages:[],
             unreadMessage:0,
             image:null,
+            isTyping: false,
+            timer: false,
 
             dzTemplate:"<div class='dz-preview dz-file-preview m-1'>\n" +
                 "  <div class=\"dz-details\" style='position: relative'>\n" +
@@ -195,10 +208,11 @@ export default {
                     }
             })
                 .then(res => {
-                    this.chatInfo = res.data.chat;
+                    console.log(res.data.chat.id)
+                    this.chat = res.data.chat;
                     this.contact = res.data.contacts;
                     this.messages = res.data.messages;
-                    console.log('Chat contacts..:', res.data.contacts);
+                    //console.log('Chat contacts..:', res.data.contacts);
 
                 })
                 .catch(error =>{
@@ -221,7 +235,7 @@ export default {
                 data.append('files[]', file)
             });
 
-            axios.post(`/api/client/message/${this.chatInfo.id}/store`, data, {
+            axios.post(`/api/client/message/${this.chatId}/store`, data, {
                 headers:{
                     Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
                 }
@@ -229,7 +243,7 @@ export default {
                 .then(res => {
                     this.message = '';
                     this.dropzone.removeAllFiles();
-                    this.getMessages(this.chatInfo.id);
+                    //this.getMessages(this.chatInfo.id);
                 })
                 .catch(error => {
                     console.log(error);
@@ -249,11 +263,40 @@ export default {
 
         },
 
+        typingInterceptor(){
+            this.channel
+                .whisper('typing', {
+                    types: true
+                });
+
+                // .whisper('typing', {
+                //     types: true
+                // })
+            //console.log('you typing: ', this.message)
+            // axios.post(`/api/client/message/${this.chatInfo.id}/${Number(this.contact.id)}/types`, {},{
+            //     headers:{
+            //         Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
+            //     }
+            // })
+        },
+
     },
 
     computed:{
         contactName(){
             return this.contact.firstName+' '+this.contact.lastName;
+        },
+
+        chatId(){
+          return this.$route.params.id
+        },
+
+        channel(){
+            return Echo.private(`chat.${this.chatId}`)
+        },
+
+        userId(){
+            return Number(JSON.parse(localStorage.getItem('user_info')).id)
         }
     }
 }

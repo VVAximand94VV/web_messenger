@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
-
+use \App\Models\Chat;
 /*
 |--------------------------------------------------------------------------
 | Broadcast Channels
@@ -17,6 +17,13 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('messages', function($user){
-    return $user;
+Broadcast::channel('chat.{id}', function($user, $id) {
+    $result = Chat::where('id', '=', (int)$id)->whereHas('users', function ($q) use ($user) {
+        $q->where('userId', (int)$user->id);
+    })->first();
+
+    if ($result != null) {
+        return true;
+    }
 });
+

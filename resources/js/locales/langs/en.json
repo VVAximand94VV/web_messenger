@@ -4,7 +4,7 @@
     },
 
     "chatView":{
-        "typing":"Typing",
+        "typing":"Typing...",
         "writeMessage":"Write message..."
     },
 
@@ -78,11 +78,11 @@
         },
 
         "chat":{
-            
+
         },
 
         "lang":{
-            
+
         }
     },
 

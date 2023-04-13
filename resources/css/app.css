@@ -358,11 +358,11 @@ button:focus {
     background-color: #f5f6f7;
 }
 
-.message-end-bg{
+.default-chat-area .message-end-bg{
     background-color: var(--dynamic-color-style);
 }
 
-.active-chat{
+.chat-lists .active-chat{
     background-color: var(--dynamic-color-style);
     /*background-color: rgb(13, 110, 253);*/
     border-radius: 10px;

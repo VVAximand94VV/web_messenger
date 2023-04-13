@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api\Message;
 
 
 use App\Events\NewMessage;
+use App\Events\UserTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Message\MessageRequest;
 use App\Models\Chat;
@@ -40,7 +41,7 @@ class MessageController extends Controller
         }
 
         $message = Message::create($data);
-        broadcast(new NewMessage($message))->toOthers();
+        broadcast(new NewMessage($message, $message->chatId))->toOthers();
 
         // images uploads
         if(isset($data['files']) && $data['files']>0){
@@ -79,6 +80,10 @@ class MessageController extends Controller
 
         return response()->json(['message' => 'All message read.']);
 
+    }
+
+    public function userTypes(Chat $chat, User $user){
+        broadcast(new UserTypes($user->id));
     }
 
 }

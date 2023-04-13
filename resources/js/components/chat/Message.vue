@@ -30,25 +30,12 @@ export default {
     props:['messageId', 'chatId','contactId', 'to', 'avatar', 'text', 'files', 'isRead','createdAt'],
 
     mounted(){
-        //this.observer();
+        this.$store.dispatch('changeColorStyle', localStorage.getItem('color-them'))
     },
 
 
     methods:{
-        //
-        // observer(){
-        //     let elem = document.querySelector(`#mess`);
-        //
-        //     let observer = new IntersectionObserver(function(e) {
-        //         e.forEach(function(e){
-        //             console.log(e.target);
-        //             console.log(e.isIntersecting);
-        //
-        //         });
-        //     });
-        //
-        //     observer.observe(elem);
-        // }
+
     }
 
 

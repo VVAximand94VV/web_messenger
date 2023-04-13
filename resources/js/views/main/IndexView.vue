@@ -119,6 +119,8 @@ export default {
     mounted() {
         this.getChats();
 
+        this.$store.dispatch('changeColorStyle', localStorage.getItem('color-them'));
+
         Echo.private(`messages`)
             .listen('NewMessage', (e) => {
                 //console.log('new message.......', e);
