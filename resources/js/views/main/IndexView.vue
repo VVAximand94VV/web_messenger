@@ -54,6 +54,9 @@
                                                                 <div class="pt-1">
                                                                     <p v-for="contact in chat.contacts" class="fw-bold mb-0 user-name">
                                                                         {{ contact.id !== userId ? contact.login:'' }}
+                                                                        <svg class="online-status" viewBox="0 0 80 80" width="11" height="11">
+                                                                            <circle :style="`fill:`+this.userCheckOnline(contact.id)+`;`" class="online-status-circle" cx="40" cy="40" r="38"/>
+                                                                        </svg>
                                                                     </p>
                                                                     <p class="small last-message">Lorem ipsum dolor sit.</p>
                                                                 </div>
@@ -121,7 +124,28 @@ export default {
 
         this.$store.dispatch('changeColorStyle', localStorage.getItem('color-them'));
 
-        Echo.private(`messages`)
+        // user check status
+        Echo.join(`users-online`)
+            .here((users) => {
+                console.log('Users online: ', users)
+                this.usersOnline = users;
+            })
+            .joining((user) => {
+                this.usersOnline.push('User joining:', user)
+                console.log(user.name);
+            })
+            .leaving((user) => {
+                this.usersOnline.splice(this.usersOnline.indexOf(user), 1)
+                console.log('User leaving:', user.name);
+            })
+            .error((error) => {
+                console.error(error);
+            });
+
+
+        console.log('selected chat: ', this.selectedChat)
+
+        Echo.private(`chat.${this.selectedChat}`)
             .listen('NewMessage', (e) => {
                 //console.log('new message.......', e);
                 if(e.message.to == this.userId){
@@ -146,10 +170,16 @@ export default {
           userId:JSON.parse(localStorage.getItem('user_info')).id,
           chats:[],
           selectedChat:0,
+          usersOnline:[],
       }
     },
 
     methods:{
+        userCheckOnline(userId){
+            // return userId
+            return this.usersOnline.find(userOnline => userOnline.id == userId) ? 'green':'red';
+        },
+
         async getChats(){
             let id = JSON.parse(localStorage.getItem('user_info')).id;
             await axios.get(`/api/client/chat/${id}/`, {
@@ -244,8 +274,9 @@ export default {
 .unread-message{
     background-color: #00DB75;
     color: white;
-    border-radius: 8px;
-    padding: 5px;
+    border-radius: 5px;
+    padding: 2px 6px;
+
 }
 
 
@@ -263,6 +294,17 @@ export default {
 
 .last-message{
     color: #6c757d;
+}
+
+.online-status{
+    margin-left: 8px;
+    margin-bottom: 5px;
+}
+
+.online-status-circle {
+    fill: #00DB75;
+    /*fill: red;*/
+    stroke-width: 0.1875em;
 }
 
 </style>

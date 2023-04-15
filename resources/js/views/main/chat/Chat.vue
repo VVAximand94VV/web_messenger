@@ -191,8 +191,6 @@ export default {
                 "  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n" +
                 "</div>",
 
-            //
-            // noImage: LOCAL_PATH.NO_IMAGE
 
         }
     },
@@ -212,7 +210,6 @@ export default {
                     this.chat = res.data.chat;
                     this.contact = res.data.contacts;
                     this.messages = res.data.messages;
-                    //console.log('Chat contacts..:', res.data.contacts);
 
                 })
                 .catch(error =>{
@@ -243,7 +240,6 @@ export default {
                 .then(res => {
                     this.message = '';
                     this.dropzone.removeAllFiles();
-                    //this.getMessages(this.chatInfo.id);
                 })
                 .catch(error => {
                     console.log(error);
@@ -268,16 +264,6 @@ export default {
                 .whisper('typing', {
                     types: true
                 });
-
-                // .whisper('typing', {
-                //     types: true
-                // })
-            //console.log('you typing: ', this.message)
-            // axios.post(`/api/client/message/${this.chatInfo.id}/${Number(this.contact.id)}/types`, {},{
-            //     headers:{
-            //         Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
-            //     }
-            // })
         },
 
     },

@@ -27,3 +27,9 @@ Broadcast::channel('chat.{id}', function($user, $id) {
     }
 });
 
+Broadcast::channel('users-online', function ($user) {
+    if(\Illuminate\Support\Facades\Auth::check()){
+        return new \App\Http\Resources\Api\Contacts\ContactsResource($user);
+    }
+});
+
