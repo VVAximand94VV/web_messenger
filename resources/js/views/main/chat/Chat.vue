@@ -9,7 +9,7 @@
                             <div class="d-flex align-items-center">
                                 <span class="chat-icon"><i class="fas fa-arrow-left"></i></span>
                                 <div class="flex-shrink-0">
-                                    <img class="img-fluid" @click.prevent="this.$store.dispatch('changeChatlist')" :src="contact.avatarUrl??localePath$.NO_IMAGE" width="45" height="45" alt="user avatar">
+                                    <img class="user-avatar rounded-circle" @click.prevent="this.$store.dispatch('changeChatlist')" :src="contact.avatarUrl??localePath$.NO_IMAGE" alt="user avatar">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h3>{{ contactName }}</h3>
@@ -289,6 +289,11 @@ export default {
 </script>
 
 <style scoped>
+
+.user-avatar{
+    max-width: 45px;
+    max-height: 45px;
+}
 
 input{
     font-size: 1.2em;

@@ -10,7 +10,7 @@
                         </div>
                         <div class="d-flex flex-row mt-3">
                             <div class="d-flex">
-                                <img :src="userAvatar" style="max-width: 80px; max-height: 80px" class="rounded-circle" alt="avatar">
+                                <img :src="user.avatar" style="max-width: 80px; max-height: 80px" class="rounded-circle" alt="avatar">
                             </div>
                             <div class="d-flex ms-2">
                                 <div class="d-flex flex-column">
@@ -74,7 +74,7 @@ export default {
     data(){
         return{
             user: JSON.parse(localStorage.getItem('user_info')),
-            userAvatar: JSON.parse(localStorage.getItem('user_info')).avatar,
+            //userAvatar: JSON.parse(localStorage.getItem('user_info')).avatar,
             avatar:null,
         }
     },

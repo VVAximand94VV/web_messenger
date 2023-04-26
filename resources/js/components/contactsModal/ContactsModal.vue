@@ -32,7 +32,7 @@
                                             </a>
 
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">Add/Remov in contact</a></li>
+                                                <li><a @click.prevent="addContact(contact.id)" class="dropdown-item" href="#">Add/Remove in contacts list</a></li>
                                                 <li><a class="dropdown-item" href="#">Other</a></li>
                                             </ul>
                                         </div>
@@ -69,7 +69,6 @@ export default {
     watch:{
         'userName':{
             handler(){
-                //console.log(this.searchUser)
                 this.searchUserName()
             }
         }
@@ -124,7 +123,7 @@ export default {
         },
 
         searchUserName(){
-            console.log(this.userName)
+            //console.log(this.userName)
 
             let id = JSON.parse(localStorage.getItem('user_info')).id;
             axios.post(`/api/client/contacts/${id}/search`, {userName: this.userName}, {
@@ -135,6 +134,22 @@ export default {
                 .then(res => {
                     console.log('All users: ', res.data.users)
                     this.users = res.data.users
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        },
+
+        addContact(contactId){
+            let id = JSON.parse(localStorage.getItem('user_info')).id;
+            axios.post(`/api/client/contacts/${id}/toggle-contact`, {contactId: contactId}, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('X-XSRF-TOKEN')}`
+                }
+            })
+                .then(res => {
+
+                    this.getContacts()
                 })
                 .catch(error => {
                     console.log(error)

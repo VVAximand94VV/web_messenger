@@ -4,7 +4,7 @@
         <span class="close-btn" role="button" @click.prevent="this.$store.dispatch('changeSidebar')"><i class="fas fa-times"></i></span>
 
         <div class= "sidebar-block d-flex justify-content-between mt-3">
-            <img src="userAvatar" alt="avatar" class="ml-3 d-flex me-3 rounded-circle" width="65">
+            <img :src="user.avatar" alt="avatar" class="ml-3 d-flex me-3 rounded-circle" width="65">
 
             <span class="logout-btn d-flex align-self-center" role="button" @click.prevent="this.$store.dispatch('logout')" :title="$t('sidebar.logout')"><i class="fas fa-sign-out-alt"></i></span>
 
@@ -36,7 +36,8 @@ export default{
         return{
             isDarkMode: JSON.parse(localStorage.getItem('theme'))??false,
             //userAvatar: JSON.parse(localStorage.getItem('user_info')).avatar??'default.jpg',
-            user: !!localStorage.getItem('user_info'),
+            // user: !!localStorage.getItem('user_info'),
+            user: JSON.parse(localStorage.getItem('user_info')),
         }
     },
 

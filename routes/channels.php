@@ -22,8 +22,10 @@ Broadcast::channel('chat.{id}', function($user, $id) {
         $q->where('userId', (int)$user->id);
     })->first();
 
-    if ($result != null) {
-        return true;
+    //dd($result);
+
+    if ($result) {
+        return $user;
     }
 });
 

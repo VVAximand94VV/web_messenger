@@ -41,7 +41,7 @@ class MessageController extends Controller
         }
 
         $message = Message::create($data);
-        broadcast(new NewMessage($message, $message->chatId))->toOthers();
+        broadcast(new NewMessage($message, $message->chatId));
 
         // images uploads
         if(isset($data['files']) && $data['files']>0){

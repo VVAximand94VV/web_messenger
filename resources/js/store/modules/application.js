@@ -19,18 +19,27 @@ export  default {
 
         changeTheme({dispatch},payload){
           //let theme = payload ? 'dark':'light';
+          if(payload == null){
+              payload = false;
+          }
           localStorage.setItem('theme', payload);
           const app = document.querySelector('#app');
           app.className = payload;
         },
 
-        changeChatBb({dispatch}, bg='default-bg.jpg'){
+        changeChatBb({dispatch}, bg){
+            if(bg == null){
+                bg = 'default-bg.jpg';
+            }
             localStorage.setItem('chat-bg-img', bg);
             const chat = document.querySelector('.default-chat-area');
             chat.style.setProperty('--chat-bg', `repeat url('/resources/js/assets/image/chat/background/${bg}')`);
         },
 
         changeColorStyle({dispatch}, color){
+            if(color == null){
+                color = 'blue';
+            }
           localStorage.setItem('color-them', color);
           const elements = document.querySelectorAll('.default-chat-area, .chat-lists');
           elements.forEach(elem => {
