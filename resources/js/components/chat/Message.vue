@@ -6,27 +6,33 @@
         <div>
             <div :class="`small p-2 ms-3 mb-1 rounded-3 ${to !== contactId ? 'message-start-bg':'message-end-bg'}`">
                 <template v-if="files!=0">
-                    <p v-for="file in files">
-                        <img class="message-image rounded-1" :src="file.fileUrl" alt="img">
-                    </p>
-
+                    <template v-for="file in files">
+                        <p>
+                            <img class="message-image rounded-1" :src="file.fileUrl" alt="img" data-bs-toggle="modal" :data-bs-target="`#full-size-img-${file.id}`">
+                        </p>
+                        <!-- IMG modal -->
+                        <FullSizeImage :imageId="file.id" :src="file.fileUrl" />
+                    </template>
                 </template>
                 <p>
                     {{ text }}
                 </p>
             </div>
 
-            <p class="small ms-3 mb-3 rounded-3 float-end" style="color: white;">{{ createdAt }}</p>
+            <p class="small ms-3 mb-3 rounded-3 float-end message-create-date" style="color: white;">{{ createdAt }}</p>
         </div>
     </div>
+
+
 
 </template>
 
 <script>
 
+import FullSizeImage from "./FullSizeImage.vue";
 export default {
     name: "Message",
-
+    components: {FullSizeImage},
     props:['messageId', 'chatId','contactId', 'to', 'avatar', 'text', 'files', 'isRead','createdAt'],
 
     mounted(){
@@ -53,5 +59,10 @@ p{
 }
 .message-image:hover{
     opacity: 0.7;
+}
+.message-create-date{
+    font: 1em Arial, sans-serif;
+    text-shadow: black 1px 1px 0, black -1px -1px 0,
+    black -1px 1px 0, black 1px -1px 0;
 }
 </style>

@@ -52,13 +52,16 @@
                                                                     <span class="badge bg-success badge-dot"></span>
                                                                 </div>
                                                                 <div class="pt-1">
-                                                                    <p v-for="contact in chat.contacts" class="fw-bold mb-0 user-name">
-                                                                        {{ contact.id !== userId ? contact.login:'' }}
-                                                                        <svg class="online-status" viewBox="0 0 80 80" width="11" height="11">
-                                                                            <circle :style="`fill:`+this.userCheckOnline(contact.id)+`;`" class="online-status-circle" cx="40" cy="40" r="38"/>
-                                                                        </svg>
-                                                                    </p>
-                                                                    <p class="small last-message">Lorem ipsum dolor sit.</p>
+                                                                    <template v-for="contact in chat.contacts">
+                                                                        <p class="fw-bold mb-0 user-name">
+                                                                            {{ contact.id !== userId ? contact.login:'' }}
+                                                                            <!--                                                                        <svg class="online-status" viewBox="0 0 80 80" width="11" height="11">-->
+                                                                            <!--                                                                            <circle :style="`fill:`+this.userCheckOnline(contact.id)+`;`" class="online-status-circle" cx="40" cy="40" r="38"/>-->
+                                                                            <!--                                                                        </svg>-->
+
+                                                                        </p>
+                                                                        <p class="small last-message">{{ this.userCheckOnline(contact.id) }}</p>
+                                                                    </template>
                                                                 </div>
                                                                     </div>
                                                                 <div v-if="chat.unreadMessages" class="pt-1">
@@ -177,7 +180,7 @@ export default {
     methods:{
         userCheckOnline(userId){
             // return userId
-            return this.usersOnline.find(userOnline => userOnline.id == userId) ? 'green':'red';
+            return this.usersOnline.find(userOnline => userOnline.id == userId) ? 'Online':'Offline';
         },
 
         async getChats(){
@@ -219,6 +222,14 @@ export default {
                     }
                 })
         },
+
+        // lastMessage(messages, userId){
+        //     messages.map(el => {
+        //         if(el.to === userId){
+        //             console.log(el)
+        //         }
+        //     })
+        // }
     },
 
     computed:{

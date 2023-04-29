@@ -8,7 +8,7 @@
         </section>
 
         <!-- User settings modal -->
-        <SettingModal id="setting-modal"/>
+        <SettingModal id="setting-modal" />
 
         <ContactsModal id="contacts-modal"/>
 
@@ -21,9 +21,10 @@ import SettingModal from './components/SettingModal.vue';
 import ContactsModal from './components/contactsModal/ContactsModal.vue';
 import {nextTick} from "vue";
 
+
 export default {
     name: "App",
-    components: { UserSidebar, SettingModal, ContactsModal },
+    components: {UserSidebar, SettingModal, ContactsModal },
 
     created(){
         //this.$store.dispatch('changeColorStyle', localStorage.getItem('color-them'))
@@ -33,7 +34,6 @@ export default {
 
     mounted(){
         // this.$nextTick(function () {
-        //     console.log('sssssssssssssssssssssssss')
         //     this.$store.dispatch('changeColorStyle', localStorage.getItem('color-them'))
         // })
 
