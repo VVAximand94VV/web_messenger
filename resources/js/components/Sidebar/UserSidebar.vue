@@ -35,8 +35,6 @@ export default{
     data(){
         return{
             isDarkMode: JSON.parse(localStorage.getItem('theme'))??false,
-            //userAvatar: JSON.parse(localStorage.getItem('user_info')).avatar??'default.jpg',
-            // user: !!localStorage.getItem('user_info'),
             user: JSON.parse(localStorage.getItem('user_info')),
         }
     },

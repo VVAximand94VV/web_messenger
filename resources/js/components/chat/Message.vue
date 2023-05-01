@@ -39,12 +39,6 @@ export default {
         this.$store.dispatch('changeColorStyle', localStorage.getItem('color-them'))
     },
 
-
-    methods:{
-
-    }
-
-
 }
 
 </script>

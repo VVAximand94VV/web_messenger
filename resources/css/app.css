@@ -1,6 +1,6 @@
 /* Light or Dark theme */
 :where(*) #app.true{
-    --chatlist-p: #ebdbdb;;
+    --chatlist-p: #ebdbdb;
     --chat-area-bg: rgb(34, 31, 31);
     --msg-head-h3: rgb(236, 223, 223);
     --msg-head-p: #e9dfdf;
@@ -9,6 +9,9 @@
     --sidebar-li: #e4d2d2;
     --sidebar-block: #e4d2d2;
     --sidebar-close-btn: rgb(250, 239, 239);
+    --modal-bg: rgb(7, 6, 6);
+    --modal-p-color: #ebdbdb;
+    --modal-h-color: #ebdbdb;
 }
 
 :where(*) #app.false{
@@ -21,6 +24,9 @@
     --sidebar-li: #818181;
     --sidebar-block: #818181;
     --sidebar-close-btn: rgb(34, 31, 31);
+    --modal-bg: #fff;
+    --modal-p-color: rgb(34, 31, 31);
+    --modal-h-color: rgb(7, 6, 6)
 }
 
 :root{
@@ -257,6 +263,15 @@ button:focus {
     color: var(--sidebar-block);
     display: block;
     transition: 0.3s;
+}
+
+.modal-content{
+    background-color: var(--modal-bg);
+    color: var(--modal-p-color);
+}
+
+.modal-content > li{
+    color: var(--modal-h-color);
 }
 
 .active-sidebar{

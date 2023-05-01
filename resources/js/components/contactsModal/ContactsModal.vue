@@ -1,6 +1,6 @@
 <template>
     <div class="modal fade" id="contacts-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="contacts-modal" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-fullscreen-md-down">
             <div class="modal-content">
                 <div class="modal-header d-flex flex-column">
                     <h5 class="d-flex">Contacts</h5>

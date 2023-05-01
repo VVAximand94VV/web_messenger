@@ -148,8 +148,6 @@ export default {
         });
 
         this.$store.dispatch('changeChatBb', localStorage.getItem('chat-bg-img'))
-
-
     },
 
     watch:{
